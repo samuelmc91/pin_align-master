@@ -1,0 +1,88 @@
+#!/bin/sh
+IMAGE_ROOT=/home/student/Desktop/Images
+if [ -e "/Users/samuel/Desktop/BNL/pin_align-master" ]; then
+  export PIN_ALIGN_ROOT=/Users/samuel/Desktop/BNL/pin_align-master
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_10_1_9_0_PA_0_001.jpg AntR05_10_1_9_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_11_1_10_0_PA_0_001.jpg AntR05_11_1_10_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_12_1_11_0_PA_0_001.jpg AntR05_12_1_11_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_13_1_12_0_PA_0_001.jpg AntR05_13_1_12_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_14_1_13_0_PA_0_001.jpg AntR05_14_1_13_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_15_1_14_0_PA_0_001.jpg AntR05_15_1_14_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR05_16_1_15_0_PA_0_001.jpg AntR05_16_1_15_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_10_0_9_0_PA_0_001.jpg AntR18_10_0_9_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_11_0_10_0_PA_0_001.jpg AntR18_11_0_10_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_12_0_11_0_PA_0_001.jpg AntR18_12_0_11_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_13_0_12_0_PA_0_001.jpg AntR18_13_0_12_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_14_0_13_0_PA_0_001.jpg AntR18_14_0_13_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_15_0_14_0_PA_0_001.jpg AntR18_15_0_14_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_16_0_15_0_PA_0_001.jpg AntR18_16_0_15_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_1_0_0_0_PA_0_001.jpg AntR18_1_0_0_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_2_0_1_0_PA_0_001.jpg AntR18_2_0_1_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_3_0_2_0_PA_0_001.jpg AntR18_3_0_2_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_4_0_3_0_PA_0_001.jpg AntR18_4_0_3_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_5_0_4_0_PA_0_001.jpg AntR18_5_0_4_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_6_0_5_0_PA_0_001.jpg AntR18_6_0_5_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_7_0_6_0_PA_0_001.jpg AntR18_7_0_6_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_8_0_7_0_PA_0_001.jpg AntR18_8_0_7_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+  $PIN_ALIGN_ROOT/pin_align.sh AntR18_9_0_8_0_PA_0_001.jpg AntR18_9_0_8_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_10_10_9_0_PA_0_001.jpg AntR7_10_10_9_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_11_10_10_0_PA_0_001.jpg AntR7_11_10_10_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_12_10_11_0_PA_0_001.jpg AntR7_12_10_11_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_13_10_12_0_PA_0_001.jpg AntR7_13_10_12_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_14_10_13_0_PA_0_001.jpg AntR7_14_10_13_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_15_10_14_0_PA_0_001.jpg AntR7_15_10_14_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_16_10_15_0_PA_0_001.jpg AntR7_16_10_15_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_1_10_0_0_PA_0_001.jpg AntR7_1_10_0_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_1_10_0_2_PA_0_001.jpg AntR7_1_10_0_2_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_2_10_1_0_PA_0_001.jpg AntR7_2_10_1_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_3_10_2_0_PA_0_001.jpg AntR7_3_10_2_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_4_10_3_0_PA_0_001.jpg AntR7_4_10_3_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_5_10_4_0_PA_0_001.jpg AntR7_5_10_4_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_6_10_5_0_PA_0_001.jpg AntR7_6_10_5_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_7_10_6_0_PA_0_001.jpg AntR7_7_10_6_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_8_10_7_0_PA_0_001.jpg AntR7_8_10_7_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh AntR7_9_10_8_0_PA_0_001.jpg AntR7_9_10_8_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Cav1_2_2_1_0_PA_0_001.jpg Cav1_2_2_1_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Cav1_3_2_2_0_PA_0_001.jpg Cav1_3_2_2_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Cav1_4_2_3_0_PA_0_001.jpg Cav1_4_2_3_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Horse-Syn_1_2_4_0_PA_0_001.jpg Horse-Syn_1_2_4_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Horse-Syn_2_2_5_0_PA_0_001.jpg Horse-Syn_2_2_5_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Horse-Syn_3_2_6_0_PA_0_001.jpg Horse-Syn_3_2_6_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Horse-Syn_4_2_7_0_PA_0_001.jpg Horse-Syn_4_2_7_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Izumo1_1_4_11_0_PA_0_001.jpg Izumo1_1_4_11_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Izumo1_2_4_12_0_PA_0_001.jpg Izumo1_2_4_12_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Izumo1_3_4_13_0_PA_0_001.jpg Izumo1_3_4_13_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_1_2_8_0_PA_0_001.jpg Mab1_1_2_8_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_2_2_9_0_PA_0_001.jpg Mab1_2_2_9_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_3_2_10_0_PA_0_001.jpg Mab1_3_2_10_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_4_2_11_0_PA_0_001.jpg Mab1_4_2_11_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_4_2_11_1_PA_0_001.jpg Mab1_4_2_11_1_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_5_2_12_0_PA_0_001.jpg Mab1_5_2_12_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_6_2_13_0_PA_0_001.jpg Mab1_6_2_13_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Mab1_7_2_14_0_PA_0_001.jpg Mab1_7_2_14_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Opo1_1_2_15_0_PA_0_001.jpg Opo1_1_2_15_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Opo1_2_4_0_0_PA_0_001.jpg Opo1_2_4_0_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Opo1_3_4_1_0_PA_0_001.jpg Opo1_3_4_1_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Opo1_4_4_2_0_PA_0_001.jpg Opo1_4_4_2_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Opo1_5_4_3_0_PA_0_001.jpg Opo1_5_4_3_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_1_4_4_0_PA_0_001.jpg Pig-Syn_1_4_4_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_2_4_5_0_PA_0_001.jpg Pig-Syn_2_4_5_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_3_4_6_0_PA_0_001.jpg Pig-Syn_3_4_6_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_4_4_7_0_PA_0_001.jpg Pig-Syn_4_4_7_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_5_4_8_0_PA_0_001.jpg Pig-Syn_5_4_8_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_6_4_9_0_PA_0_001.jpg Pig-Syn_6_4_9_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_7_4_10_0_PA_0_001.jpg Pig-Syn_7_4_10_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_8_4_14_0_PA_0_001.jpg Pig-Syn_8_4_14_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh Pig-Syn_9_4_15_0_PA_0_001.jpg Pig-Syn_9_4_15_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_1_1_0_0_PA_0_001.jpg T74D_1_1_0_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_2_1_1_0_PA_0_001.jpg T74D_2_1_1_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_3_1_2_0_PA_0_001.jpg T74D_3_1_2_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_3_1_2_2_PA_0_001.jpg T74D_3_1_2_2_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_4_1_3_0_PA_0_001.jpg T74D_4_1_3_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_5_1_4_0_PA_0_001.jpg T74D_5_1_4_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_6_1_5_0_PA_0_001.jpg T74D_6_1_5_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_7_1_6_0_PA_0_001.jpg T74D_7_1_6_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_8_1_7_0_PA_0_001.jpg T74D_8_1_7_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh T74D_9_1_8_0_PA_0_001.jpg T74D_9_1_8_0_PA_90_001.jpg pin.pgm mid.pgm cap.pgm
+$PIN_ALIGN_ROOT/pin_align.sh oemga0_tilted_AMX_005.jpg oemga90_tilted_AMX_005.jpg pin.pgm mid.pgm cap.pgm
+fi
