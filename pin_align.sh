@@ -14,9 +14,6 @@ if [ "xx${PIN_ALIGN_DEBUG}" != "xx" ]; then
   echo "argument 0: ${0}" 1>&2 
   echo "argument 1: ${1}" 1>&2 
   echo "argument 2: ${2}" 1>&2 
-  echo "argument 3: ${3}" 1>&2 
-  echo "argument 4: ${4}" 1>&2 
-  echo "argument 5: ${5}" 1>&2
 fi 
 
 if [ "${1}xx" == "--helpxx" ]; then
@@ -51,15 +48,9 @@ roi_width_offset=$(( $PIN_ALIGN_ROI_WIDTH_OFFSET ))
 roi_height_offset=$(( $PIN_ALIGN_ROI_HEIGHT_OFFSET ))
 image_center_width=$(( $PIN_ALIGN_IMAGE_WIDTH_CENTER - $roi_width_offset ))
 image_center_height=$(( $PIN_ALIGN_IMAGE_HEIGHT_CENTER - $roi_height_offset ))
-if [ "${6}xx" == "xx" ]; then
-  tilt_limit=$PIN_ALIGN_TILT_LIMIT
-else
-  tilt_limit=$6
-fi
+
 scaled_px_per_mm=`echo "scale=2;  5 * ${PIN_ALIGN_PIXELS_PER_MM} "| bc -l`
-base_tilt_limit=$(( $tilt_limit * 4  ))
-base_tilt_limit=$(( $base_tilt_limit / 3  ))
-sub_base_tilt_limit=$(( $tilt_limit / 3 ))
+
 tmp_dir=$PWD/${USER}_pin_align_$$ 
 mkdir $tmp_dir
 echo Processing pin images
@@ -82,28 +73,30 @@ echo "Files in: " $tmp_dir
 XZ=$1
 XY=$2
 
-# Names ending in _1.pgm are 0 degrees and names ending in _2.pgm are 90 degress.
+# Names ending in _1.pgm are 0 degrees, names ending in _2.pgm are 90 degrees and
+# names ending in _3.pgm are combined 0 and 90 degrees
 $PIN_ALIGN_ROOT/pin_align_prep.sh $XZ ${tmp_dir}/${fbase}_1.pgm \
 ${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_1_sub_base.pgm> ${tmp_dir}/${fbase}_1.mvg 
-echo $PIN_ALIGN_ROOT
 $PIN_ALIGN_ROOT/pin_align_prep.sh $XY ${tmp_dir}/${fbase}_2.pgm \
 ${tmp_dir}/${fbase}_2_base.pgm ${tmp_dir}/${fbase}_2_sub_base.pgm> ${tmp_dir}/${fbase}_2.mvg
 
+#Combine both the top and bottom ROIs into one ROI
+compare ${tmp_dir}/${fbase}_1.pgm ${tmp_dir}/${fbase}_2.pgm ${tmp_dir}/${fbase}_3.pgm 
+compare ${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_2_base.pgm ${tmp_dir}/${fbase}_3_base.pgm
+compare ${tmp_dir}/${fbase}_1_sub_base.pgm ${tmp_dir}/${fbase}_2_sub_base.pgm ${tmp_dir}/${fbase}_3_sub_base.pgm
+
 #Crop the ROI down to two appropriate size ROIs --Sam
-convert ${tmp_dir}/${fbase}_1_base.pgm -shave 0x0 -repage ${PIN_ALIGN_BASE_WINDOW} ${tmp_dir}/1_paged.pgm
-convert ${tmp_dir}/1_paged.pgm -crop ${TOP_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_1_top_crop.pgm
-convert ${tmp_dir}/1_paged.pgm -crop ${BOTTOM_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_1_bottom_crop.pgm
-convert ${tmp_dir}/${fbase}_2_base.pgm -shave 0x0 -repage ${PIN_ALIGN_BASE_WINDOW} ${tmp_dir}/2_paged.pgm
-convert ${tmp_dir}/2_paged.pgm -crop ${TOP_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_2_top_crop.pgm
-convert ${tmp_dir}/2_paged.pgm -crop ${BOTTOM_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_2_bottom_crop.pgm
-compare ${tmp_dir}/${fbase}_1_top_crop.pgm ${tmp_dir}/${fbase}_2_top_crop.pgm ${tmp_dir}/top_compare.pgm
-compare ${tmp_dir}/${fbase}_1_bottom_crop.pgm ${tmp_dir}/${fbase}_2_bottom_crop.pgm ${tmp_dir}/bottom_compare.pgm
+nooutput=0
+
+convert ${tmp_dir}/${fbase}_3_base.pgm -crop ${TOP_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_3_cap_top_crop.pgm
+convert ${tmp_dir}/${fbase}_3_base.pgm -crop ${BOTTOM_CAP_CROP_WINDOW} ${tmp_dir}/${fbase}_3_cap_bottom_crop.pgm
+
 
 #Test to see if there is more than one color present in the ROI
 #If the pin is not tilted the entire ROI should be white
 
-top_compare=$(identify -format %k ${tmp_dir}/top_compare.pgm)
-bottom_compare=$(identify -format %k ${tmp_dir}/bottom_compare.pgm)
+top_compare=$(identify -format %k ${tmp_dir}/${fbase}_3_cap_top_crop.pgm)
+bottom_compare=$(identify -format %k ${tmp_dir}/${fbase}_3_cap_bottom_crop.pgm)
 
 if [ $top_compare == 1 ]; then
   check_one=true
@@ -117,21 +110,15 @@ if [[ "$check_one" = true && "$check_two" = true ]]; then
   echo "CAP CENTERED"
 else
   echo "CAP TILTED"
+  nooutput=1
 fi
 
 #The check to see if a pin is present or missing
+convert ${tmp_dir}/${fbase}_3.pgm -crop ${TOP_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_3_pin_top_crop.pgm
+convert ${tmp_dir}/${fbase}_3.pgm  -crop ${BOTTOM_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_3_pin_bottom_crop.pgm
 
-convert ${tmp_dir}/${fbase}_1.pgm -shave 0x0 -repage ${PIN_ALIGN_BASE_WINDOW} ${tmp_dir}/1_pin_paged.pgm
-convert ${tmp_dir}/1_pin_paged.pgm -crop ${TOP_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_1_pin_top_crop.pgm
-convert ${tmp_dir}/1_pin_paged.pgm -crop ${BOTTOM_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_1_pin_bottom_crop.pgm
-convert ${tmp_dir}/${fbase}_2.pgm -shave 0x0 -repage ${PIN_ALIGN_BASE_WINDOW} ${tmp_dir}/2_pin_paged.pgm
-convert ${tmp_dir}/2_pin_paged.pgm -crop ${TOP_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_2_pin_top_crop.pgm
-convert ${tmp_dir}/2_pin_paged.pgm -crop ${BOTTOM_PIN_CROP_WINDOW} ${tmp_dir}/${fbase}_2_pin_bottom_crop.pgm
-compare ${tmp_dir}/${fbase}_1_pin_top_crop.pgm ${tmp_dir}/${fbase}_2_pin_top_crop.pgm ${tmp_dir}/pin_top_compare.pgm
-compare ${tmp_dir}/${fbase}_1_pin_bottom_crop.pgm ${tmp_dir}/${fbase}_2_pin_bottom_crop.pgm ${tmp_dir}/pin_bottom_compare.pgm
-
-pin_top_compare=$(identify -format %k ${tmp_dir}/pin_top_compare.pgm)
-pin_bottom_compare=$(identify -format %k ${tmp_dir}/pin_bottom_compare.pgm)
+pin_top_compare=$(identify -format %k ${tmp_dir}/${fbase}_3_pin_top_crop.pgm)
+pin_bottom_compare=$(identify -format %k ${tmp_dir}/${fbase}_3_pin_bottom_crop.pgm)
 
 if [ $pin_top_compare == 1 ]; then
   pin_check_one=true
@@ -145,23 +132,17 @@ if [[ "$pin_check_one" = true && "$pin_check_two" = true ]]; then
   echo "PIN PRESENT"
 else
   echo "NO PIN PRESENT"
+  nooutput=1
 fi
 #End
-
-
-compare ${tmp_dir}/${fbase}_1.pgm ${tmp_dir}/${fbase}_2.pgm $3 
-compare ${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_2_base.pgm $4 
-compare ${tmp_dir}/${fbase}_1_sub_base.pgm ${tmp_dir}/${fbase}_2_sub_base.pgm $5 
-diff -bu ${tmp_dir}/${fbase}_1.mvg ${tmp_dir}/${fbase}_2.mvg > ${tmp_dir}/${3}.mvgdiff
-
+ 
 
 ########## fuzz factor #############
 convert  ${tmp_dir}/${fbase}_1.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_1
 convert  ${tmp_dir}/${fbase}_2.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_2 
-convert $3 -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_1_2
-convert $4 -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_1_2_base
-convert $5 -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_1_2_sub_base
-
+convert ${tmp_dir}/${fbase}_3.pgm  -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3
+convert ${tmp_dir}/${fbase}_3_base.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3_base
+convert ${tmp_dir}/${fbase}_3_sub_base.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3_sub_base
 
 $PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_1 > ${tmp_dir}/info_image_1.vars
 . ${tmp_dir}/info_image_1.vars
@@ -241,79 +222,10 @@ else
     image_pin_y2_offset_to_cent=`echo "scale=2; - $image_pin_y2_offset_to_cent / ${scaled_px_per_mm}"|bc -l`
 fi
 
-$PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_compare_1_2 > ${tmp_dir}/info_image_compare_1_2.vars
-. ${tmp_dir}/info_image_compare_1_2.vars
+$PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_compare_3 > ${tmp_dir}/info_image_compare_3.vars
+. ${tmp_dir}/info_image_compare_3.vars
 
 
-image_pin_x_orig=$((  $info_raw_image_width_offset + $roi_width_offset  ))
-image_pin_x_offset_to_cent=$(( $image_center_width - $info_raw_image_width_offset ))
-image_pin_x_offset_to_cent=$(( $image_pin_x_offset_to_cent * 5 ))
-image_pin_x_offset_to_cent=`echo "scale=2; -1* $image_pin_x_offset_to_cent / ${scaled_px_per_mm}"| bc -l`
-
-nooutput=0
-
-if [ "$info_raw_image_width_offset" == -1 ]; then
-   echo "NO PIN FOUND"
-   nooutput=1
-fi
-if [ "$info_raw_image_height_offset" == -1 ]; then
-   echo "NO PIN FOUND"
-   nooutput=1
-fi
-
-if (( $(echo "$info_active_image_height > $tilt_limit" | bc -l) )); then
-   echo "PIN TILTED; CANNOT CENTER"
-   if [ "xx$PIN_ALIGN_DEBUG" == "xx" ]; then 
-     nooutput=1
-     exit
-   else
-     echo "info_active_image_height:${info_active_image_height} > tilt_limit:${tilt_limit}" 1>&2
-   fi
-fi
-
-$PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_compare_1_2_base > ${tmp_dir}/info_image_compare_1_2_base.vars
-. ${tmp_dir}/info_image_compare_1_2_base.vars
-
-pin_center=$(( $info_active_image_height / 2 ))
-pin_center=$(( $info_raw_image_height_offset + $pin_center ))
-pin_center=$((  $roi_height_offset + $pin_center ))
-
-if (( $(echo "$info_active_image_height > $base_tilt_limit" | bc -l) )); then
-   echo "BASE TILTED; CANNOT CENTER"
-   if [ "xx$PIN_ALIGN_DEBUG" == "xx" ]; then
-     nooutput=1
-   else   
-     echo "info_active_image_height:${info_active_image_height} .gt. base_tilt_limit:${base_tilt_limit}" 1>&2
-   fi
-fi
-
-$PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_compare_1_2_sub_base > ${tmp_dir}/info_image_compare_1_2_sub_base.vars
-. ${tmp_dir}/info_image_compare_1_2_sub_base.vars
-
-sub_base_center=$(( $info_active_image_height / 2 ))
-sub_base_center=$(( $info_raw_image_height_offset + $sub_base_center ))
-sub_base_center=$((  $roi_height_offset + $sub_base_center ))
-
-
-if (( $(echo "$pin_center > $sub_base_center" | bc -l) )); then
-   if (( $(echo "$pin_center - $sub_base_center > $sub_base_tilt_limit" | bc -l) )); then
-       echo "BASE TILTED; CANNOT CENTER"
-       if [ "xx$PIN_ALIGN_DEBUG" == "xx" ]; then
-         nooutput=1
-       else
-         echo "pin_center:${pin_center} - sub_base_center:${sub_base_center}: .gt. sub_base_tilt_limit:${sub_base_tilt_limit}" 1>&2
-       fi
-    fi
-else
-   if (( $(echo "$sub_base_center - $pin_center  > $sub_base_tilt_limit" | bc -l) )); then
-       echo "BASE TILTED; CANNOT CENTER"
-       if [ "xx$PIN_ALIGN_DEBUG" == "xx" ]; then
-         nooutput=1
-       else
-         echo "sub_base_center:${sub_base_center} - pin_center:${pin_center}: .gt. sub_base_tilt_limit:${sub_base_tilt_limit}" 1>&2
-       fi
-   fi
-fi
 
 if [ "xx${nooutput}" == "xx0" ]; then
     if (( $(echo "${image_pin_x1_orig} < ${image_pin_x2_orig}" | bc -l)  )); then
