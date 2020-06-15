@@ -3,7 +3,6 @@
 #  pin_align.sh -- ccmparison 0 and 90 degree images
 #                       H. J. Bernstein, 3 Jan 2019
 #
-#  Version 2.0 - 15 Jun 2020
 full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
 
 if [ -d /Users/samuel/Desktop/BNL/pin_align-master ]; then
@@ -77,13 +76,18 @@ XY=$2
 # Names ending in _1.pgm are 0 degrees, names ending in _2.pgm are 90 degrees and
 # names ending in _3.pgm are combined 0 and 90 degrees
 $PIN_ALIGN_ROOT/pin_align_prep.sh $XZ ${tmp_dir}/${fbase}_1.pgm \
-${tmp_dir}/${fbase}_1_base.pgm> ${tmp_dir}/${fbase}_1.mvg 
+${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_1_sub_base.pgm> ${tmp_dir}/${fbase}_1.mvg 
 $PIN_ALIGN_ROOT/pin_align_prep.sh $XY ${tmp_dir}/${fbase}_2.pgm \
-${tmp_dir}/${fbase}_2_base.pgm> ${tmp_dir}/${fbase}_2.mvg
+${tmp_dir}/${fbase}_2_base.pgm ${tmp_dir}/${fbase}_2_sub_base.pgm> ${tmp_dir}/${fbase}_2.mvg
 
 #Combine both the top and bottom ROIs into one ROI
-compare ${tmp_dir}/${fbase}_1.pgm ${tmp_dir}/${fbase}_2.pgm ${tmp_dir}/${fbase}_3.pgm 
-compare ${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_2_base.pgm ${tmp_dir}/${fbase}_3_base.pgm
+compare ${tmp_dir}/${fbase}_1.pgm ${tmp_dir}/${fbase}_2.pgm $3
+compare ${tmp_dir}/${fbase}_1_base.pgm ${tmp_dir}/${fbase}_2_base.pgm $4
+compare ${tmp_dir}/${fbase}_1_sub_base.pgm ${tmp_dir}/${fbase}_2_sub_base.pgm $5
+
+convert $3 -shave 0x0 ${tmp_dir}/${fbase}_3.pgm
+convert $4 -shave 0x0 ${tmp_dir}/${fbase}_3_base.pgm
+convert $5 -shave 0x0 ${tmp_dir}/${fbase}_3_sub_base.pgm
 
 #Crop the ROI down to two appropriate size ROIs --Sam
 nooutput=0
@@ -142,6 +146,7 @@ convert  ${tmp_dir}/${fbase}_1.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_im
 convert  ${tmp_dir}/${fbase}_2.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_2 
 convert ${tmp_dir}/${fbase}_3.pgm  -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3
 convert ${tmp_dir}/${fbase}_3_base.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3_base
+convert ${tmp_dir}/${fbase}_3_sub_base.pgm -fuzz $fuzz -trim info:- > ${tmp_dir}/info_image_compare_3_sub_base
 
 $PIN_ALIGN_ROOT/pin_align_split_info.sh ${tmp_dir}/info_image_1 > ${tmp_dir}/info_image_1.vars
 . ${tmp_dir}/info_image_1.vars

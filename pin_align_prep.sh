@@ -5,6 +5,8 @@
 #                       H. J. Bernstein, 3 Jan 2019
 #                       rev 16 Jan 2019
 #
+#  Version 2.0 - 15 Jun 2020
+
 if [ "${1}xx" == "--help" ]; then
    echo "pin_align_prep.sh image_in image_out [base_image_out [sub_base_image_out]]"
    echo "        prepare a pin alignment image, image_in, for"

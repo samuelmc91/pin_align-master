@@ -9,6 +9,9 @@
 #     info_raw_image_width_offset=
 #     info_raw_image_height_offset=
 #echo $1
+#
+#  Version 2.0 - 15 Jun 2020
+
 if [ -e "$1" ]; then
   info=`cat $1`
 else

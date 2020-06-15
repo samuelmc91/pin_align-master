@@ -13,7 +13,7 @@
 #  original images taken and only generate a center when there is no
 #  tilted or bent pin or cap.
 #  
-
+#  Version 2.0 - 15 Jun 2020
 
 #  *** EDIT THE FOLLOWING LINE TO CHANGE PIXELS/MM       ***
 PIN_ALIGN_DEFAULT_PIXELS_PER_MM="20"
@@ -50,7 +50,7 @@ fi
 # The following twelve lines give the default values
 PIN_ALIGN_DEFAULT_ROI_WIDTH=$(( 161 ))
 PIN_ALIGN_DEFAULT_ROI_HEIGHT=$(( 400 ))
-PIN_ALIGN_DEFAULT_ROI_WIDTH_OFFSET=$(( 389 ))
+PIN_ALIGN_DEFAULT_ROI_WIDTH_OFFSET=$(( 400 ))
 PIN_ALIGN_DEFAULT_ROI_HEIGHT_OFFSET=$(( 295 ))
 PIN_ALIGN_DEFAULT_IMAGE_WIDTH_CENTER=$(( 421 ))
 PIN_ALIGN_DEFAULT_IMAGE_HEIGHT_CENTER=$(( 513 ))
