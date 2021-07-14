@@ -1,0 +1,359 @@
+Total Runtime: 10.01316
+
+######## BNL128_1_tl_4_0_0_PA_0_001.jpg ########
+
+0 degree: BNL128_1_tl_4_0_0_PA_0_001.jpg
+90 degree: BNL128_1_tl_4_0_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_68918
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [393, - , 485 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [398, 499, - ]
+OVERALL  X,Y,Z PIN POS        PX [393, 499, 485 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.8, - , -0.1 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.55, -0.6, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.8, -0.6, -0.1 ]
+
+######## BNL128_1_tl_4_0_2_PA_0_001.jpg ########
+
+0 degree: BNL128_1_tl_4_0_2_PA_0_001.jpg
+90 degree: BNL128_1_tl_4_0_2_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_67167
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [394, - , 487 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [398, 499, - ]
+OVERALL  X,Y,Z PIN POS        PX [394, 499, 487 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.75, - , 0.0 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.55, -0.6, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.75, -0.6, 0.0 ]
+
+######## BNL128_2_tl_4_1_0_PA_0_001.jpg ########
+
+0 degree: BNL128_2_tl_4_1_0_PA_0_001.jpg
+90 degree: BNL128_2_tl_4_1_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_45402
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [409, - , 477 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [405, 482, - ]
+OVERALL  X,Y,Z PIN POS        PX [405, 482, 477 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.0, - , -0.5 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.2, 0.25, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.2, 0.25, -0.5 ]
+
+######## BNL128_3_tl_4_2_0_PA_0_001.jpg ########
+
+0 degree: BNL128_3_tl_4_2_0_PA_0_001.jpg
+90 degree: BNL128_3_tl_4_2_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_49814
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [426, - , 494 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [403, 488, - ]
+OVERALL  X,Y,Z PIN POS        PX [403, 488, 494 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.85, - , 0.35 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.3, -0.05, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.3, -0.05, 0.35 ]
+
+######## BNL128_4_tl_4_3_0_PA_0_001.jpg ########
+
+0 degree: BNL128_4_tl_4_3_0_PA_0_001.jpg
+90 degree: BNL128_4_tl_4_3_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_92537
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [402, - , 480 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [385, 503, - ]
+OVERALL  X,Y,Z PIN POS        PX [385, 503, 480 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.35, - , -0.35 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-1.2, -0.8, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-1.2, -0.8, -0.35 ]
+
+######## BNL128_5_tl_4_4_0_PA_0_001.jpg ########
+
+0 degree: BNL128_5_tl_4_4_0_PA_0_001.jpg
+90 degree: BNL128_5_tl_4_4_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_33291
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [416, - , 481 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [400, 491, - ]
+OVERALL  X,Y,Z PIN POS        PX [400, 491, 481 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.35, - , -0.3 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.45, -0.2, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.45, -0.2, -0.3 ]
+
+######## BNL128_6_tl_4_5_0_PA_0_001.jpg ########
+
+0 degree: BNL128_6_tl_4_5_0_PA_0_001.jpg
+90 degree: BNL128_6_tl_4_5_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_24274
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [390, - , 491 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [397, 501, - ]
+OVERALL  X,Y,Z PIN POS        PX [390, 501, 491 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.95, - , 0.2 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.6, -0.7, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.95, -0.7, 0.2 ]
+
+######## BNL132_1_tm_w5_5_0_0_PA_0_001.jpg ########
+
+0 degree: BNL132_1_tm_w5_5_0_0_PA_0_001.jpg
+90 degree: BNL132_1_tm_w5_5_0_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_50279
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [418, - , 489 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [406, 481, - ]
+OVERALL  X,Y,Z PIN POS        PX [406, 481, 489 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.45, - , 0.1 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.15, 0.3, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.15, 0.3, 0.1 ]
+
+######## BNL132_4_tm_ssx22_5_3_0_PA_0_001.jpg ########
+
+0 degree: BNL132_4_tm_ssx22_5_3_0_PA_0_001.jpg
+90 degree: BNL132_4_tm_ssx22_5_3_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_44446
+CAP TILTED
+
+######## BNL132_5_tm_ssx18_5_4_0_PA_0_001.jpg ########
+
+0 degree: BNL132_5_tm_ssx18_5_4_0_PA_0_001.jpg
+90 degree: BNL132_5_tm_ssx18_5_4_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_68916
+CAP TILTED
+
+######## BNL132_8_thaul_w5_5_7_0_PA_0_001.jpg ########
+
+0 degree: BNL132_8_thaul_w5_5_7_0_PA_0_001.jpg
+90 degree: BNL132_8_thaul_w5_5_7_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_69788
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [431, - , 484 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [404, 482, - ]
+OVERALL  X,Y,Z PIN POS        PX [404, 482, 484 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [1.1, - , -0.15 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.25, 0.25, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.25, 0.25, -0.15 ]
+
+######## BNL136_10_za4_3_9_0_PA_0_001.jpg ########
+
+0 degree: BNL136_10_za4_3_9_0_PA_0_001.jpg
+90 degree: BNL136_10_za4_3_9_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_32579
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [423, - , 492 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [404, 502, - ]
+OVERALL  X,Y,Z PIN POS        PX [404, 502, 492 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.7, - , 0.25 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.25, -0.75, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.25, -0.75, 0.25 ]
+
+######## BNL136_11_zssx23_3_10_0_PA_0_001.jpg ########
+
+0 degree: BNL136_11_zssx23_3_10_0_PA_0_001.jpg
+90 degree: BNL136_11_zssx23_3_10_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_93258
+CAP TILTED
+
+######## BNL136_12_za3_3_11_0_PA_0_001.jpg ########
+
+0 degree: BNL136_12_za3_3_11_0_PA_0_001.jpg
+90 degree: BNL136_12_za3_3_11_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_58442
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [423, - , 487 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [399, 486, - ]
+OVERALL  X,Y,Z PIN POS        PX [399, 486, 487 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.7, - , 0.0 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.5, 0.05, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.5, 0.05, 0.0 ]
+
+######## BNL136_13_za3_3_12_0_PA_0_001.jpg ########
+
+0 degree: BNL136_13_za3_3_12_0_PA_0_001.jpg
+90 degree: BNL136_13_za3_3_12_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_80056
+CAP TILTED
+
+######## BNL136_14_za3_3_13_0_PA_0_001.jpg ########
+
+0 degree: BNL136_14_za3_3_13_0_PA_0_001.jpg
+90 degree: BNL136_14_za3_3_13_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_72386
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [418, - , 487 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [400, 493, - ]
+OVERALL  X,Y,Z PIN POS        PX [400, 493, 487 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.45, - , 0.0 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.45, -0.3, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.45, -0.3, 0.0 ]
+
+######## BNL136_15_za3_3_14_0_PA_0_001.jpg ########
+
+0 degree: BNL136_15_za3_3_14_0_PA_0_001.jpg
+90 degree: BNL136_15_za3_3_14_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_46411
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [398, - , 496 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [401, 490, - ]
+OVERALL  X,Y,Z PIN POS        PX [398, 490, 496 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.55, - , 0.45 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.4, -0.15, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.55, -0.15, 0.45 ]
+
+######## BNL136_16_za3ssx18_3_15_0_PA_0_001.jpg ########
+
+0 degree: BNL136_16_za3ssx18_3_15_0_PA_0_001.jpg
+90 degree: BNL136_16_za3ssx18_3_15_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_49378
+CAP TILTED
+
+######## BNL136_1_za4_3_0_0_PA_0_001.jpg ########
+
+0 degree: BNL136_1_za4_3_0_0_PA_0_001.jpg
+90 degree: BNL136_1_za4_3_0_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_96827
+CAP TILTED
+
+######## BNL136_2_za4_3_1_0_PA_0_001.jpg ########
+
+0 degree: BNL136_2_za4_3_1_0_PA_0_001.jpg
+90 degree: BNL136_2_za4_3_1_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_86671
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [402, - , 489 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [407, 500, - ]
+OVERALL  X,Y,Z PIN POS        PX [402, 500, 489 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.35, - , 0.1 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.1, -0.65, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.35, -0.65, 0.1 ]
+
+######## BNL136_3_za4_3_2_0_PA_0_001.jpg ########
+
+0 degree: BNL136_3_za4_3_2_0_PA_0_001.jpg
+90 degree: BNL136_3_za4_3_2_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_73567
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [394, - , 486 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [401, 505, - ]
+OVERALL  X,Y,Z PIN POS        PX [394, 505, 486 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.75, - , -0.05 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.4, -0.9, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.75, -0.9, -0.05 ]
+
+######## BNL136_4_za4_3_3_0_PA_0_001.jpg ########
+
+0 degree: BNL136_4_za4_3_3_0_PA_0_001.jpg
+90 degree: BNL136_4_za4_3_3_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_32421
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [390, - , 487 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [372, 498, - ]
+OVERALL  X,Y,Z PIN POS        PX [372, 498, 487 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.95, - , 0.0 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-1.85, -0.55, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-1.85, -0.55, 0.0 ]
+
+######## BNL136_5_za4_3_4_0_PA_0_001.jpg ########
+
+0 degree: BNL136_5_za4_3_4_0_PA_0_001.jpg
+90 degree: BNL136_5_za4_3_4_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_55402
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [422, - , 480 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [392, 491, - ]
+OVERALL  X,Y,Z PIN POS        PX [392, 491, 480 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0.65, - , -0.35 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.85, -0.2, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.85, -0.2, -0.35 ]
+
+######## BNL136_6_za4_3_5_0_PA_0_001.jpg ########
+
+0 degree: BNL136_6_za4_3_5_0_PA_0_001.jpg
+90 degree: BNL136_6_za4_3_5_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_29925
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [405, - , 477 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [383, 483, - ]
+OVERALL  X,Y,Z PIN POS        PX [383, 483, 477 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.2, - , -0.5 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-1.3, 0.2, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-1.3, 0.2, -0.5 ]
+
+######## BNL136_7_za4_3_6_0_PA_0_001.jpg ########
+
+0 degree: BNL136_7_za4_3_6_0_PA_0_001.jpg
+90 degree: BNL136_7_za4_3_6_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_28068
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [386, - , 477 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [369, 495, - ]
+OVERALL  X,Y,Z PIN POS        PX [369, 495, 477 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-1.15, - , -0.5 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-2.0, -0.4, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-2.0, -0.4, -0.5 ]
+
+######## BNL136_8_za4_3_7_0_PA_0_001.jpg ########
+
+0 degree: BNL136_8_za4_3_7_0_PA_0_001.jpg
+90 degree: BNL136_8_za4_3_7_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_61659
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [397, - , 479 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [400, 504, - ]
+OVERALL  X,Y,Z PIN POS        PX [397, 504, 479 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.6, - , -0.4 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.45, -0.85, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.6, -0.85, -0.4 ]
+
+######## BNL136_9_za4_3_8_0_PA_0_001.jpg ########
+
+0 degree: BNL136_9_za4_3_8_0_PA_0_001.jpg
+90 degree: BNL136_9_za4_3_8_0_PA_90_001.jpg
+Files in: /home/samuel/A/pin_align-master/pin_align_testing/BAG-308552_10Jun2021_results/samuel_pin_align_63266
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [391, - , 484 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [395, 498, - ]
+OVERALL  X,Y,Z PIN POS        PX [391, 498, 484 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-0.9, - , -0.15 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [-0.7, -0.55, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-0.9, -0.55, -0.15 ]
+
