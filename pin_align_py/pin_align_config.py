@@ -7,66 +7,66 @@ X_POS = True
 Y_POS = True
 Z_POS = False
 
-X_CENTER = 409
-Y_CENTER = 487
+X_CENTER = 404
+Y_CENTER = 497
 
 ########################## pin,body,base ##########################
 # slice(offset, offset)
 # offset = Y + height
-DEFAULT_ROI_Y1 = 362
-DEFAULT_ROI_Y2 = 612
+DEFAULT_ROI_Y1 = 372
+DEFAULT_ROI_Y2 = 622
 
 DEFAULT_HEIGHT = slice(DEFAULT_ROI_Y1, DEFAULT_ROI_Y2)
 
 # Pin tip
 # offset = X + width
-PIN_TIP_X1 = 369
-PIN_TIP_X2 = 467
+PIN_TIP_X1 = 364
+PIN_TIP_X2 = 463
 
 PIN_TIP = slice(PIN_TIP_X1, PIN_TIP_X2)
 
 # Pin body
-PIN_BODY_X1 = 467
-PIN_BODY_X2 = 565
+PIN_BODY_X1 = 463
+PIN_BODY_X2 = 562
 
 PIN_BODY = slice(PIN_BODY_X1, PIN_BODY_X2)
 
 # Pin base
-PIN_BASE_X1 = 565
-PIN_BASE_X2 = 664
+PIN_BASE_X1 = 562
+PIN_BASE_X2 = 662
 
 PIN_BASE = slice(PIN_BASE_X1, PIN_BASE_X2)
 
 ########################## Tilt check  parameters ##########################
 # Setting the width = -10 the width of the image
-TILT_CHECK_X1 = 614
-TILT_CHECK_X2 = 664
+TILT_CHECK_X1 = 612
+TILT_CHECK_X2 = 662
 
 TILT_CHECK_ROI_WIDTH = slice(TILT_CHECK_X1, TILT_CHECK_X2)
 
 # Top crop
-TILT_CHECK_TOP_Y1 = 382
-TILT_CHECK_TOP_Y2 = 452
+TILT_CHECK_TOP_Y1 = 392
+TILT_CHECK_TOP_Y2 = 462
 
 TILT_CHECK_TOP = slice(TILT_CHECK_TOP_Y1, TILT_CHECK_TOP_Y2)
 
 # Bottom crop
-TILT_CHECK_BOTTOM_Y1 = 522
-TILT_CHECK_BOTTOM_Y2 = 592
+TILT_CHECK_BOTTOM_Y1 = 532
+TILT_CHECK_BOTTOM_Y2 = 602
 
 TILT_CHECK_BOTTOM = slice(TILT_CHECK_BOTTOM_Y1, TILT_CHECK_BOTTOM_Y2)
 
 ########################## Pin check parameters ##########################
 
 # Top crop
-PIN_CHECK_TOP_Y1 = 362
-PIN_CHECK_TOP_Y2 = 452
+PIN_CHECK_TOP_Y1 = 372
+PIN_CHECK_TOP_Y2 = 462
 
 PIN_CHECK_TOP = slice(PIN_CHECK_TOP_Y1, PIN_CHECK_TOP_Y2)
 
 # Bottom crop
-PIN_CHECK_BOTTOM_Y1 = 522
-PIN_CHECK_BOTTOM_Y2 = 612
+PIN_CHECK_BOTTOM_Y1 = 532
+PIN_CHECK_BOTTOM_Y2 = 622
 
 PIN_CHECK_BOTTOM = slice(PIN_CHECK_BOTTOM_Y1, PIN_CHECK_BOTTOM_Y2)
 
@@ -83,8 +83,8 @@ MIN_Z = -2
 MAX_Z = 2
 
 ########################## Small & Big Box parameters ##########################
-BOX_X_IN = 409
-BOX_Y_IN = 487
+BOX_X_IN = 404
+BOX_Y_IN = 497
 
 SMALL_BOX_X1 = BOX_X_IN + (MIN_Z * DEFAULT_PIXELS_PER_MM)
 SMALL_BOX_X2 = BOX_X_IN + (MAX_Z * DEFAULT_PIXELS_PER_MM)
@@ -96,13 +96,13 @@ SMALL_BOX_Y2 = BOX_Y_IN + (MAX_Y * DEFAULT_PIXELS_PER_MM)
 
 SMALL_BOX_HEIGHT = slice(SMALL_BOX_Y1, SMALL_BOX_Y2)
 
-BIG_BOX_X1 = 369
-BIG_BOX_X2 = 664
+BIG_BOX_X1 = 364
+BIG_BOX_X2 = 662
 
 BIG_BOX_WIDTH = slice(BIG_BOX_X1, BIG_BOX_X2)
 
-BIG_BOX_Y1 = 362
-BIG_BOX_Y2 = 612
+BIG_BOX_Y1 = 372
+BIG_BOX_Y2 = 622
 
 BIG_BOX_HEIGHT = slice(BIG_BOX_Y1, BIG_BOX_Y2)
 
