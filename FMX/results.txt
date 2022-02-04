@@ -1,0 +1,44 @@
+Position Incorrect in File: 2111A3b_0_1_0_PA
+Position Incorrect in File: 2111A5a_0_2_0_PA
+Position Incorrect in File: 486279D925_5_8_0_PA
+Position Incorrect in File: ACK1_R247H_2_0_1_0_PA
+Position Incorrect in File: B11_C3_Ta_2_11_5_0_PA
+Position Incorrect in File: BAF_L_A_1_11_0_6_PA
+Position Incorrect in File: BAF_L_F_3_10_9_0_PA
+Position Incorrect in File: CcO_20_5_7_0_PA
+Position Incorrect in File: F07_13_7_2_0_PA
+Position Incorrect in File: F07_14_7_3_0_PA
+Position Incorrect in File: F07_18_7_7_0_PA
+Position Incorrect in File: F07_19_7_8_0_PA
+Position Incorrect in File: F07_20_7_9_0_PA
+Position Incorrect in File: F07_21_7_10_0_PA
+Position Incorrect in File: F07_22_7_11_0_PA
+Position Incorrect in File: Kinase_ATP__E3_4_0_3_0_PA
+Position Incorrect in File: R2D-202pos13_3_12_0_PA
+Position Incorrect in File: R2D-205pos01_0_0_0_PA
+Position Incorrect in File: R2D-205pos03_1_2_0_PA
+Position Incorrect in File: R2D-207pos03_0_2_0_PA
+Position Incorrect in File: R2D-207pos11_3_10_0_PA
+Position Incorrect in File: S01_hexagon03_6_3_0_PA
+Position Incorrect in File: S01_hexagon04_6_4_0_PA
+Position Incorrect in File: S01_peptide01_6_0_0_PA
+Position Incorrect in File: S01_peptide01_6_0_3_PA
+Position Incorrect in File: S01_peptide03_6_2_0_PA
+Position Incorrect in File: Ventus02_5_3_4_5_PA
+Position Incorrect in File: Ventus03_1_2_0_1_PA
+Position Incorrect in File: Ventus08_3_1_2_2_PA
+Position Incorrect in File: XT242005_10_14_0_PA
+Position Incorrect in File: XT242012_11_5_0_PA
+Position Incorrect in File: XT242033_12_10_0_PA
+Position Incorrect in File: XT242515_8_8_0_PA
+Position Incorrect in File: XT242524_9_1_0_PA
+Position Incorrect in File: fmxa01_0_0_192_PA
+Position Incorrect in File: hTDO_aMTrp_19_6_2_0_PA
+
+Position Correct: 1074
+Position Incorrect: 36
+Position Error: 0
+
+Offset Correct: 1073
+Offset Incorrect: 37
+Offset Error: 0
