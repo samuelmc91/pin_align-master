@@ -255,7 +255,7 @@ else
 fi
 #End
 
-
+nooutput=0
 if [ "xx${nooutput}" == "xx0" ]; then
     if (( $(echo "${image_pin_x1_orig} < ${image_pin_x2_orig}" | bc -l)  )); then
         image_pin_x_orig=${image_pin_x1_orig}
