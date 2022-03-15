@@ -29,12 +29,15 @@ def reset_results(dir_path, dir_type):
         mov_dir = os.path.join(results_dir, new_fname)
         shutil.move(f, mov_dir)
     os.chdir(root)
-
-    
+  
 def test_fmx():
     imgs = [f for f in os.listdir(img_dir) if f.split('.')[-1] == 'jpg']
     imgs.sort()
-
+    user_choice = input('Enter all or the number of images to test: ')
+    if user_choice == 'all':
+        image_num_in = len(imgs)
+    else:
+        image_num_in = int(user_choice)
     run_count = 1
     for i in range(0, len(imgs)-1, 2):
         run_img_0 = os.path.join(img_dir, imgs[i])
@@ -80,9 +83,9 @@ def test_fmx():
 
             new_config.close()
             os.chdir(img_dir)
-        # run_count += 1
-        # if run_count == 50:
-        #     break
+        run_count += 1
+        if run_count == image_num_in:
+            break
     os.chdir(root)
 
 new_dir = os.path.join(root, 'New')

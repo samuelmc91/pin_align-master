@@ -21,8 +21,6 @@ elif len(os.listdir(img_dir)) < 2:
     print('########### No Images ###########')
     sys.exit()
 
-
-
 def reset_results(dir_path, dir_type):
     os.chdir(dir_path)
     temp_f_list = [f for f in os.listdir()]
@@ -31,8 +29,7 @@ def reset_results(dir_path, dir_type):
         mov_dir = os.path.join(results_dir, new_fname)
         shutil.move(f, mov_dir)
     os.chdir(root)
-
-    
+ 
 def test_amx():
     imgs = [f for f in os.listdir(img_dir) if f.split('.')[-1] == 'jpg']
     imgs.sort()
@@ -99,34 +96,8 @@ old_dir = os.path.join(root, 'Old')
 if not os.path.exists(old_dir):
     os.mkdir('Old')
             
-# if len(os.listdir(results_dir)) < 5:
-#     print('Enter 1 to run tests and continue\n\
-# Enter 2 to run tests and exit before result processing\n\
-# Enter 3 to reset test results and continue\n\
-# Enter 4 to reset test results and exit\n\
-# Enter 5 to exit\n')
-#     user_choice = int(input('Enter your choice: '))
-#     if user_choice == 1:
-#         test_amx()
-#     elif user_choice == 2:
-#         test_amx()
-#         sys.exit()
-#     elif user_choice == 3:
-#         reset_results(new_dir, 'New')
-#         reset_results(old_dir, 'Old')
-#         print('##### Reset Done #####')
-#     elif user_choice == 4:
-#         reset_results(new_dir, 'New')
-#         reset_results(old_dir, 'Old')
-#         print('##### Reset Done #####')
-#         sys.exit(0)
-#     elif user_choice == 5:
-#         sys.exit(0)
-#     else:
-#         print('Not a valid choice')
-#         sys.exit()
-
 test_amx()
+
 tmp_dir = 'config-results-' + now.strftime('%d-%b_%H-%M')
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
