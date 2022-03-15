@@ -21,6 +21,8 @@ elif len(os.listdir(img_dir)) < 2:
     print('########### No Images ###########')
     sys.exit()
 
+
+
 def reset_results(dir_path, dir_type):
     os.chdir(dir_path)
     temp_f_list = [f for f in os.listdir()]
@@ -34,7 +36,11 @@ def reset_results(dir_path, dir_type):
 def test_amx():
     imgs = [f for f in os.listdir(img_dir) if f.split('.')[-1] == 'jpg']
     imgs.sort()
-
+    user_choice = input('Enter all or the number of images to test: ')
+    if user_choice == 'all':
+        image_num_in = len(imgs)
+    else:
+        image_num_in = int(user_choice)
     run_count = 1
     for i in range(0, len(imgs)-1, 2):
         run_img_0 = os.path.join(img_dir, imgs[i])
@@ -53,7 +59,7 @@ def test_amx():
 
             os.chdir(old_out_dir)
 
-            old_outputs = os.popen(f'bash {root}/AMX/pin_align-old/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            old_outputs = os.popen(f'bash {root}/pin_align-old/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             old_config = open('run_output.txt', 'w')
             old_config.writelines(old_outputs)
@@ -73,16 +79,16 @@ def test_amx():
 
             os.chdir(new_out_dir)
 
-            new_outputs = os.popen(f'bash {root}/AMX/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            new_outputs = os.popen(f'bash {root}/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             new_config = open('run_output.txt', 'w')
             new_config.writelines(new_outputs)
 
             new_config.close()
             os.chdir(img_dir)
-        # run_count += 1
-        # if run_count == 50:
-        #     break
+        run_count += 1
+        if run_count == image_num_in:
+            break
     os.chdir(root)
 
 new_dir = os.path.join(root, 'New')
