@@ -1,0 +1,30 @@
+New Config Output:
+
+Processing pin images
+0 degree:  486279D923_5_6_2_PA_0_001.jpg
+90 degrees;  486279D923_5_6_2_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/486279D923_5_6_2_PA_New/samuel_pin_align_209647
+CAP TILTED
+PIN MISSING
+X, Y, Z WITHIN LIMITS
+
+
+#######################################################
+
+Old Config Output:
+
+PIN_ALIGN_PIXELS_PER_MM = 28
+PIN_ALIGN_ROOT="/home/samuel/Desktop/Projects/pin_align-master/FMX/pin_align-old"
+Processing pin images
+0 degree:  486279D923_5_6_2_PA_0_001.jpg
+90 degrees;  486279D923_5_6_2_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/486279D923_5_6_2_PA_Old/samuel_pin_align_209419
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [475, - , 443 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [480, 436, - ]
+OVERALL  X,Y,Z PIN POS        PX [475, 436, 443 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [0, - , .46 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [.17, -.21, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [0, -.21, .46 ]

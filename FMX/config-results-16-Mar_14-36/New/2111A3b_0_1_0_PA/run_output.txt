@@ -1,0 +1,7 @@
+Processing pin images
+0 degree:  2111A3b_0_1_0_PA_0_001.jpg
+90 degrees;  2111A3b_0_1_0_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/2111A3b_0_1_0_PA_New/samuel_pin_align_196246
+CAP TILTED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS

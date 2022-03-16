@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 from datetime import datetime
+import numpy as np
 
 now = datetime.now()
 root = os.getcwd()
@@ -35,11 +36,10 @@ def test_amx():
     imgs.sort()
     user_choice = input('Enter all or the number of images to test: ')
     if user_choice == 'all':
-        image_num_in = len(imgs)
+        test_image_index = range(0, len(imgs)-1, 2)
     else:
-        image_num_in = int(user_choice)
-    run_count = 1
-    for i in range(0, len(imgs)-1, 2):
+        test_image_index = list(np.random.choice(np.arange(0,len(imgs),2), int(user_choice), replace=False))
+    for i in test_image_index:
         run_img_0 = os.path.join(img_dir, imgs[i])
         run_img_90 = os.path.join(img_dir, imgs[i+1])
 
@@ -83,9 +83,6 @@ def test_amx():
 
             new_config.close()
             os.chdir(img_dir)
-        run_count += 1
-        if run_count == image_num_in:
-            break
     os.chdir(root)
 
 new_dir = os.path.join(root, 'New')

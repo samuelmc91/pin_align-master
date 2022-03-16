@@ -1,0 +1,15 @@
+PIN_ALIGN_PIXELS_PER_MM = 28
+PIN_ALIGN_ROOT="/home/samuel/Desktop/Projects/pin_align-master/FMX/pin_align-old"
+Processing pin images
+0 degree:  486279D909_6_8_0_PA_0_001.jpg
+90 degrees;  486279D909_6_8_0_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/486279D909_6_8_0_PA_Old/samuel_pin_align_202331
+CAP CENTERED
+PIN PRESENT
+X, Y, Z WITHIN LIMITS
+OMEGA 0  X,-,Z PIN POS IMAGE2 PX [470, - , 450 ]
+OMEGA 90 X,Y,- PIN POS IMAGE1 PX [479, 441, - ]
+OVERALL  X,Y,Z PIN POS        PX [470, 441, 450 ]
+OMEGA 0  X,-,Z OFFSETS TO CENTER IMAGE2 mm [-.17, - , .71 ]
+OMEGA 90 X,Y,- OFFSETS TO CENTER IMAGE1 mm [.14, -.39, - ]
+OVERALL X,Y,Z OFFSETS TO CENTER         mm [-.17, -.39, .71 ]

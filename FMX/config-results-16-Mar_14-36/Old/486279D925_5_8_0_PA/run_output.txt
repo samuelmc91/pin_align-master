@@ -1,0 +1,9 @@
+PIN_ALIGN_PIXELS_PER_MM = 28
+PIN_ALIGN_ROOT="/home/samuel/Desktop/Projects/pin_align-master/FMX/pin_align-old"
+Processing pin images
+0 degree:  486279D925_5_8_0_PA_0_001.jpg
+90 degrees;  486279D925_5_8_0_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/486279D925_5_8_0_PA_Old/samuel_pin_align_210214
+CAP TILTED
+PIN MISSING
+PIN CANNOT BE CENTERED, TRY MANUAL CENTERING X, Y, Z VIOLATION

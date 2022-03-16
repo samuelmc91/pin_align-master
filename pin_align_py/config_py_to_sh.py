@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import re
+import shutil
 
 def change_config_file(config_file_path, line_text, new_value):
     lines = open(config_file_path, 'r').readlines()
@@ -40,6 +41,7 @@ def convert_to_bash(config_file_path):
                         pass
             bash_config.close()
     python_config.close()
+    shutil.copy(bash_config_path, os.path.abspath(os.pardir))
     
 if __name__ == '__main__':
     convert_to_bash('pin_align_config.py')

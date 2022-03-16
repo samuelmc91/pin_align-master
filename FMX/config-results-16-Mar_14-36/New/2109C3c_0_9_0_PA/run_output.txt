@@ -1,0 +1,7 @@
+Processing pin images
+0 degree:  2109C3c_0_9_0_PA_0_001.jpg
+90 degrees;  2109C3c_0_9_0_PA_90_001.jpg
+Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/2109C3c_0_9_0_PA_New/samuel_pin_align_193091
+CAP TILTED
+PIN MISSING
+X, Y, Z WITHIN LIMITS
