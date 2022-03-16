@@ -16,7 +16,7 @@ Y_CENTER=$((484))
 #########################################################
 
 BIG_BOX_X1=$((377))
-BIG_BOX_X2=$((667))
+BIG_BOX_X2=$((671))
 
 BIG_BOX_Y1=$((372))
 BIG_BOX_Y2=$((596))
@@ -32,18 +32,18 @@ PIN_TIP_X1=$((377))
 
 PIN_TIP="${PIN_ALIGN_ROI_WIDTH}x${PIN_ALIGN_ROI_HEIGHT}+${PIN_TIP_X1}+${DEFAULT_ROI_Y1}"
 
-PIN_BODY_X1=$((473))
+PIN_BODY_X1=$((475))
 
 PIN_BODY="${PIN_ALIGN_ROI_WIDTH}x${PIN_ALIGN_ROI_HEIGHT}+${PIN_BODY_X1}+${DEFAULT_ROI_Y1}"
 
-PIN_BASE_X1=$((569))
+PIN_BASE_X1=$((573))
 
 PIN_BASE="${PIN_ALIGN_ROI_WIDTH}x${PIN_ALIGN_ROI_HEIGHT}+${PIN_BASE_X1}+${DEFAULT_ROI_Y1}"
 
 ########################## Tilt check  parameters ##########################
 
-TILT_CHECK_X1=$((617))
-TILT_CHECK_X2=$((667))
+TILT_CHECK_X1=$((621))
+TILT_CHECK_X2=$((671))
 
 TILT_CHECK_ROI_WIDTH=$((${TILT_CHECK_X2}-${TILT_CHECK_X1}))
 

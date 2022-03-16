@@ -21,26 +21,26 @@ DEFAULT_HEIGHT = 225
 # Pin tip
 # offset = X + width
 PIN_TIP_X1 = 377
-PIN_TIP_X2 = 473
+PIN_TIP_X2 = 475
 
 PIN_TIP = slice(PIN_TIP_X1, PIN_TIP_X2)
 
 # Pin body
-PIN_BODY_X1 = 473
-PIN_BODY_X2 = 569
+PIN_BODY_X1 = 475
+PIN_BODY_X2 = 573
 
 PIN_BODY = slice(PIN_BODY_X1, PIN_BODY_X2)
 
 # Pin base
-PIN_BASE_X1 = 569
-PIN_BASE_X2 = 667
+PIN_BASE_X1 = 573
+PIN_BASE_X2 = 671
 
 PIN_BASE = slice(PIN_BASE_X1, PIN_BASE_X2)
 
 ########################## Tilt check  parameters ##########################
 # Setting the width = -10 the width of the image
-TILT_CHECK_X1 = 617
-TILT_CHECK_X2 = 667
+TILT_CHECK_X1 = 621
+TILT_CHECK_X2 = 671
 
 TILT_CHECK_ROI_WIDTH = slice(TILT_CHECK_X1, TILT_CHECK_X2)
 
@@ -70,7 +70,7 @@ PIN_CHECK_BOTTOM_Y2 = 596
 
 PIN_CHECK_BOTTOM = slice(PIN_CHECK_BOTTOM_Y1, PIN_CHECK_BOTTOM_Y2)
 
-DEFAULT_WIDTH = 290
+DEFAULT_WIDTH = 294
 
 ########################## X,Y,Z check parameters ##########################
 MIN_X = -2
@@ -97,7 +97,7 @@ SMALL_BOX_Y2 = BOX_Y_IN + (MAX_Y * DEFAULT_PIXELS_PER_MM)
 SMALL_BOX_HEIGHT = slice(SMALL_BOX_Y1, SMALL_BOX_Y2)
 
 BIG_BOX_X1 = 377
-BIG_BOX_X2 = 667
+BIG_BOX_X2 = 671
 
 BIG_BOX_WIDTH = slice(BIG_BOX_X1, BIG_BOX_X2)
 
