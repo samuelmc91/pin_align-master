@@ -1,7 +1,0 @@
-Processing pin images
-0 degree:  B11_40A_C1_1_13_0_0_PA_0_001.jpg
-90 degrees;  B11_40A_C1_1_13_0_0_PA_90_001.jpg
-Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/B11_40A_C1_1_13_0_0_PA_New/samuel_pin_align_226556
-CAP TILTED
-PIN MISSING
-X, Y, Z WITHIN LIMITS

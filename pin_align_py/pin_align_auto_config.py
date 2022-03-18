@@ -10,6 +10,7 @@ import importlib
 
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import filedialog as fd
 from tkinter import *
 from PIL import Image, ImageTk
 
@@ -18,7 +19,7 @@ from tool_tip import CreateToolTip
 from image_canvas import Image_Canvas
 import pin_align_config
 from pin_align_config import *
-from window_menu_bar import Window_Menu
+import window_menu_bar
 from config_py_to_sh import convert_to_bash
 
 ############### Global Variables ###############
@@ -38,30 +39,19 @@ on_off_list = [[False, False],  # Pin Tip
                [False, False],  # Small Box
                [False, False]]  # Big Box
 
-root = os.getcwd()
-config_file_path = os.path.join(root, 'pin_align_config.py')
-
-
-def update():
-    current_pos = 'X: {}\t Y: {}'.format(
-        pyautogui.position()[0], pyautogui.position()[1])
-    mouse_pos.config(text=current_pos)
-    root.after(10, update)
-
+file_root = os.getcwd()
+config_file_path = os.path.join(file_root, 'pin_align_config.py')
 
 def motion(event):
     x, y = event.x, event.y
     current_pos = 'X: {}\t Y: {}'.format(x, y)
     mouse_pos.config(text=current_pos)
-    # root.after(10, motion)
-
 
 def get_pin_crops():
     inputs = importlib.reload(pin_align_config)
-
-    pin_crops = [[inputs.DEFAULT_HEIGHT, inputs.PIN_TIP],
-                 [inputs.DEFAULT_HEIGHT, inputs.PIN_BODY],
-                 [inputs.DEFAULT_HEIGHT, inputs.PIN_BASE],
+    pin_crops = [[slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_TIP],
+                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_BODY],
+                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_BASE],
                  [inputs.TILT_CHECK_TOP, inputs.TILT_CHECK_ROI_WIDTH],
                  [inputs.TILT_CHECK_BOTTOM, inputs.TILT_CHECK_ROI_WIDTH],
                  [inputs.PIN_CHECK_TOP, inputs.PIN_BODY],
@@ -69,9 +59,8 @@ def get_pin_crops():
                  [inputs.SMALL_BOX_HEIGHT, inputs.SMALL_BOX_WIDTH],
                  [inputs.BIG_BOX_HEIGHT, inputs.BIG_BOX_WIDTH],
                  [inputs.X_CENTER, inputs.Y_CENTER],
-                 [inputs.DEFAULT_WIDTH, inputs.DEFAULT_HEIGHT],
+                 [slice(inputs.PIN_TIP_X1, inputs.PIN_BASE_X2), slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2)],
                  [inputs.PIN_X1_OFFSET, None]]
-
     return pin_crops
 
 def update_entry_boxes():
@@ -101,9 +90,25 @@ def update_entry_boxes():
     max_y_in.insert(END, update_config.MAX_Y)
     max_z_in.delete(0, END)
     max_z_in.insert(END, update_config.MAX_Z)
-    
 
-def crop_button_left(event, image_in_canvas, button_choice):
+def save_config(new_filepath):
+    new_filepath = os.path.join(os.path.abspath(os.pardir), new_filepath + '.sh')
+    convert_to_bash(new_filepath)
+    print(new_filepath)
+    return
+
+def save_config_as():
+    popup = Toplevel(root)
+    x = root.winfo_x()
+    y = root.winfo_y()
+    popup.geometry("%dx%d+%d+%d" % (250, 50, x + 500, y + 500))
+    filename_in = Entry(popup, width=100)
+    filename_in.pack()
+    ok_button = Button(popup, text='Save', command=lambda:[save_config(filename_in.get()),
+                                                            popup.destroy()])
+    ok_button.pack()
+
+def crop_button_left_click(event, image_in_canvas, button_choice):
     global on_off_list
     pin_crops = get_pin_crops()
     Y1 = pin_crops[button_choice][0].start
@@ -132,8 +137,7 @@ def crop_button_left(event, image_in_canvas, button_choice):
     y2_value_in.insert(END, str(Y2))
     return pin_crops
 
-
-def crop_button_right(event, image_in_canvas, button_choice):
+def crop_button_right_click(event, image_in_canvas, button_choice):
     global on_off_list
     pin_crops = get_pin_crops()
 
@@ -167,43 +171,87 @@ def auto_start_button_left(event, image_in_canvas):
     global help_image_window
     global auto_start_on_off
     clear_image_canvas(image_in_canvas)
-    auto_start_on_off = True
-    pin_crops = get_pin_crops()
-    filename = os.path.join(os.getcwd(), 'display_help_image.jpg')
+    if not auto_start_on_off:
+        auto_start_on_off = True
+        pin_crops = get_pin_crops()
+        filename = os.path.join(os.getcwd(), 'display_help_image.jpg')
 
-    current_crop_title.config(
-        text='Points should be as shown', font=('helvetica', 14))
-    help_image = image_in_canvas.get_help_image(filename)
-    help_image_label = tk.Label(root, image=help_image)
-    help_image_window = info_canvas_top.create_window(
-        310, 250, window=help_image_label)
+        current_crop_title.config(
+            text='Points should be as shown', font=('helvetica', 14))
+        help_image = image_in_canvas.get_help_image(filename)
+        help_image_label = tk.Label(root, image=help_image)
+        help_image_window = info_canvas_top.create_window(
+            310, 250, window=help_image_label)
 
-    pin_tip_button.unbind("<Button-1>")
-    pin_body_button.unbind("<Button-1>")
-    pin_cap_button.unbind("<Button-1>")
-    tilt_check_top_button.unbind("<Button-1>")
-    tilt_check_bottom_button.unbind("<Button-1>")
-    pin_check_top_button.unbind("<Button-1>")
-    pin_check_bottom_button.unbind("<Button-1>")
+        pin_tip_button.unbind("<Button-1>")
+        pin_body_button.unbind("<Button-1>")
+        pin_cap_button.unbind("<Button-1>")
+        tilt_check_top_button.unbind("<Button-1>")
+        tilt_check_bottom_button.unbind("<Button-1>")
+        pin_check_top_button.unbind("<Button-1>")
+        pin_check_bottom_button.unbind("<Button-1>")
 
-    pin_tip_button.unbind("<Button-3>")
-    pin_body_button.unbind("<Button-3>")
-    pin_cap_button.unbind("<Button-3>")
-    tilt_check_top_button.unbind("<Button-3>")
-    tilt_check_bottom_button.unbind("<Button-3>")
-    pin_check_top_button.unbind("<Button-3>")
-    pin_check_bottom_button.unbind("<Button-3>")
+        pin_tip_button.unbind("<Button-3>")
+        pin_body_button.unbind("<Button-3>")
+        pin_cap_button.unbind("<Button-3>")
+        tilt_check_top_button.unbind("<Button-3>")
+        tilt_check_bottom_button.unbind("<Button-3>")
+        pin_check_top_button.unbind("<Button-3>")
+        pin_check_bottom_button.unbind("<Button-3>")
 
-    pin_tip_button.config(bg='red')
-    pin_body_button.config(bg='red')
-    pin_cap_button.config(bg='red')
-    tilt_check_top_button.config(bg='red')
-    tilt_check_bottom_button.config(bg='red')
-    pin_check_top_button.config(bg='red')
-    pin_check_bottom_button.config(bg='red')
+        pin_tip_button.config(bg='red')
+        pin_body_button.config(bg='red')
+        pin_cap_button.config(bg='red')
+        tilt_check_top_button.config(bg='red')
+        tilt_check_bottom_button.config(bg='red')
+        pin_check_top_button.config(bg='red')
+        pin_check_bottom_button.config(bg='red')
 
-    image_in_canvas.auto_crop_start(y1_value_label, x1_value_label, x2_value_label, y2_value_label,
-                                    x1_value_in, y1_value_in, x2_value_in, y2_value_in)
+        image_in_canvas.auto_crop_start(y1_value_label, x1_value_label, x2_value_label, y2_value_label,
+                                        x1_value_in, y1_value_in, x2_value_in, y2_value_in)
+    else:
+        image_in_canvas.auto_crop_stop(
+        y1_value_label, x1_value_label, x2_value_label, y2_value_label)
+        clear_image_canvas(image_in_canvas)
+        info_canvas_top.delete(help_image_window)
+        auto_start_on_off = False
+        pin_tip_button.bind("<Button-1>", lambda event,
+                    arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
+        pin_body_button.bind("<Button-1>", lambda event,
+                            arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
+        pin_cap_button.bind("<Button-1>", lambda event,
+                            arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 2))
+        tilt_check_top_button.bind(
+            "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 3))
+        tilt_check_bottom_button.bind(
+            "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 4))
+        pin_check_top_button.bind("<Button-1>", lambda event,
+                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
+        pin_check_bottom_button.bind(
+            "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 6))
+
+        pin_tip_button.bind("<Button-3>", lambda event,
+                            arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 0))
+        pin_body_button.bind("<Button-3>", lambda event,
+                            arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
+        pin_cap_button.bind("<Button-3>", lambda event,
+                            arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 2))
+        tilt_check_top_button.bind(
+            "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 3))
+        tilt_check_bottom_button.bind(
+            "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 4))
+        pin_check_top_button.bind("<Button-3>", lambda event,
+                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
+        pin_check_bottom_button.bind(
+            "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 6))
+
+        pin_tip_button.config(bg='green')
+        pin_body_button.config(bg='green')
+        pin_cap_button.config(bg='green')
+        tilt_check_top_button.config(bg='green')
+        tilt_check_bottom_button.config(bg='green')
+        pin_check_top_button.config(bg='green')
+        pin_check_bottom_button.config(bg='green')
 
 
 def change_config_file(config_file_path, line_text, new_value):
@@ -215,8 +263,45 @@ def change_config_file(config_file_path, line_text, new_value):
     out.writelines(lines)
     out.close()
 
+def select_files():
+    filetypes = (
+        ('All files', '*.*'),
+        ('Image files', '*.jpg'),
+        ('Python files', '*.py'),
+        ('Bash files', '*.sh'),
+        ('Text files', '*.txt')
+    )
 
-def auto_submit_button_left(event, image_in_canvas, tk_root):
+    filename = fd.askopenfilename(
+        title='Open a file',
+        initialdir=os.path.abspath(os.pardir),
+        filetypes=filetypes)
+    return filename
+
+def switch_gui_config():
+    filename = select_files()
+    try:
+        for line in open(filename, 'r').readlines():
+            if line.split('=')[0] == 'X_CENTER':
+                new_x_center = line.split('=$((')[-1].replace('))', '').strip()
+            elif line.split('=')[0] == 'Y_CENTER':
+                new_y_center = line.split('=$((')[-1].replace('))', '').strip()
+            else:
+                pass
+        x_center_in.delete(0, END)
+        x_center_in.insert(END, new_x_center)
+        y_center_in.delete(0, END)
+        y_center_in.insert(END, new_y_center)
+        auto_submit_button_left("<Button-1>", image_in_canvas)
+    except Exception as e:
+        print(e)
+
+def switch_gui_image():
+    filename = select_files()
+    os.execv(sys.argv[0], [sys.argv[0], filename])
+    pass
+
+def auto_submit_button_left(event, image_in_canvas):
     global help_image_window
     global auto_start_on_off
 
@@ -273,9 +358,6 @@ def auto_submit_button_left(event, image_in_canvas, tk_root):
         change_config_file(config_file_path, 'Z_POS',
                            str(z_pos_in.get()))
         minor_entry_change = True
-        print(bool(z_pos_in.get()))
-        print(submit_config_update.Z_POS)
-        print(type(z_pos_in.get()), type(submit_config_update.Z_POS))
 
     if X_POS:
         # The cap is on the right and the pin goes to the left
@@ -289,34 +371,34 @@ def auto_submit_button_left(event, image_in_canvas, tk_root):
             info_canvas_top.delete(help_image_window)
             auto_start_on_off = False
             pin_tip_button.bind("<Button-1>", lambda event,
-                        arg=image_in_canvas: crop_button_left(event, image_in_canvas, 0))
+                        arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
             pin_body_button.bind("<Button-1>", lambda event,
-                                arg=image_in_canvas: crop_button_left(event, image_in_canvas, 1))
+                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
             pin_cap_button.bind("<Button-1>", lambda event,
-                                arg=image_in_canvas: crop_button_left(event, image_in_canvas, 2))
+                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 2))
             tilt_check_top_button.bind(
-                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 3))
+                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 3))
             tilt_check_bottom_button.bind(
-                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 4))
+                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 4))
             pin_check_top_button.bind("<Button-1>", lambda event,
-                                    arg=image_in_canvas: crop_button_left(event, image_in_canvas, 5))
+                                    arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
             pin_check_bottom_button.bind(
-                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 6))
+                "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 6))
 
             pin_tip_button.bind("<Button-3>", lambda event,
-                                arg=image_in_canvas: crop_button_right(event, image_in_canvas, 0))
+                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 0))
             pin_body_button.bind("<Button-3>", lambda event,
-                                arg=image_in_canvas: crop_button_right(event, image_in_canvas, 1))
+                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
             pin_cap_button.bind("<Button-3>", lambda event,
-                                arg=image_in_canvas: crop_button_right(event, image_in_canvas, 2))
+                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 2))
             tilt_check_top_button.bind(
-                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 3))
+                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 3))
             tilt_check_bottom_button.bind(
-                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 4))
+                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 4))
             pin_check_top_button.bind("<Button-3>", lambda event,
-                                    arg=image_in_canvas: crop_button_right(event, image_in_canvas, 5))
+                                    arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
             pin_check_bottom_button.bind(
-                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 6))
+                "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 6))
 
             pin_tip_button.config(bg='green')
             pin_body_button.config(bg='green')
@@ -339,7 +421,8 @@ def auto_submit_button_left(event, image_in_canvas, tk_root):
             A = int(x2_value_in.get())
             B = Y
 
-            X1 = X - int(pin_x1_offset_in.get())
+            # X1 = X - int(pin_x1_offset_in.get())
+            X1 = (X - int(pin_x1_offset_in.get())) + (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
             X2 = A + 5
             height = int(default_height_in.get())
             width = X2 - X1
@@ -355,7 +438,8 @@ def auto_submit_button_left(event, image_in_canvas, tk_root):
             X, Y = int(x_center_in.get()), int(y_center_in.get())
             height = int(default_height_in.get())
             
-            X1 = X - int(pin_x1_offset_in.get())
+            # X1 = X - int(pin_x1_offset_in.get())
+            X1 = (X - int(pin_x1_offset_in.get())) + (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
             X2 = X1 + int(default_width_in.get())
             width = X2 - X1
             line = image_in_canvas.draw_new_line(X1, Y, X2, Y)
@@ -441,17 +525,19 @@ def auto_submit_button_left(event, image_in_canvas, tk_root):
     else:
         print('pass')
 
+def donothing():
+    pass
 
 if __name__ == '__main__':
     root = tk.Tk()
     auto_start_on_off = False
-    root_menu = Window_Menu(root)
+    
     root.bind('<Motion>', motion)
     # Tool Bar is added to the canvas here to avoid formatting issues
     # Tool Bar code continues on line 413
     toolbar = tk.Frame(root)
     toolbar.pack(side="top", fill="x")
-
+    # root_menu = window_menu_bar.Window_Menu(root)
     w = 1920
     h = 1050
 
@@ -467,38 +553,39 @@ if __name__ == '__main__':
 
     ########################### Image Canvas ############################
     image_in_canvas = Image_Canvas(root)
-
+    # root_menu = window_menu_bar.Window_Menu(root)
     ########################### Toolbar Canvas ############################
-    refresh_button = tk.Button(root, text="Refresh", command=lambda: print(
-        'Fix'),  bg='green', fg='white', font=10)
-    refresh_button.pack(in_=toolbar, side="left", padx=10)
+    menubar = Menu(root, relief='sunken')
 
-    manual_button = tk.Button(root, text='Manual', command=lambda: image_in_canvas.start_self_crop(),
-                              bg='green', fg='white', font=10)
-    manual_button.pack(in_=toolbar, side="left", padx=10)
+    filemenu = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label="File", menu=filemenu)
 
-    clear_button = tk.Button(text='Clear', command=lambda: clear_image_canvas(image_in_canvas), bg='green', fg='white', font=10)
-    clear_button.pack(in_=toolbar, side="left", padx=10)
+    filemenu.add_command(label="Save", command=convert_to_bash(config_file_path))
+    filemenu.add_command(label="Save as...", command=save_config_as)
+    filemenu.add_command(label="Change Image", command=switch_gui_image)
+    filemenu.add_command(label="Change Configuration", command=switch_gui_config)
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=root.quit)
+    
+    viewmenu = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label="View", menu=viewmenu)
 
-    small_box_button = tk.Button(
-        root, text='Small Box', bg='green', fg='white', font=10)
-    small_box_button.pack(in_=toolbar, side="left", padx=10)
+    viewmenu.add_command(label="Refresh", command=update_entry_boxes)
+    viewmenu.add_command(label="Manual", command=image_in_canvas.start_self_crop)
+    viewmenu.add_command(label="Clear", command=lambda: clear_image_canvas(image_in_canvas))
+    viewmenu.add_separator()
+    viewmenu.add_command(label="Big Box Edges", command=lambda:crop_button_right_click("<Button-3>",image_in_canvas,8))
+    viewmenu.add_command(label="Big Box Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,8))
+    viewmenu.add_command(label="Small Box Edges", command=lambda: crop_button_right_click("<Button-3>",image_in_canvas,7))
+    viewmenu.add_command(label="Small Box Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
 
-    small_box_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 7))
+    helpmenu = Menu(menubar, tearoff=0)
+    menubar.add_cascade(label="Help", menu=helpmenu)
+    
+    helpmenu.add_command(label="Help Index", command=donothing)
+    helpmenu.add_command(label="About...", command=donothing)
 
-    small_box_button.bind(
-        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 7))
-
-    big_box_button = tk.Button(
-        root, text='Big Box', bg='green', fg='white', font=10)
-    big_box_button.pack(in_=toolbar, side="left", padx=10)
-
-    big_box_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 8))
-
-    big_box_button.bind(
-        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 8))
+    root.config(menu=menubar)
 
     ############################ Info Canvas Top ############################
     info_canvas_top = tk.Canvas(root, width=600, height=500,
@@ -664,7 +751,7 @@ if __name__ == '__main__':
     auto_start_button.bind(
         "<Button-1>", lambda event, arg=image_in_canvas: auto_start_button_left(event, image_in_canvas))
     auto_submit_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: auto_submit_button_left(event, image_in_canvas, info_canvas_top))
+        "<Button-1>", lambda event, arg=image_in_canvas: auto_submit_button_left(event, image_in_canvas))
 
     quit_button = tk.Button(
         text='Quit', command=lambda: root.destroy(), bg='green', fg='white', font=10)
@@ -697,34 +784,34 @@ if __name__ == '__main__':
     info_canvas_bottom.create_window(430, 185, window=tilt_check_bottom_button)
 
     pin_tip_button.bind("<Button-1>", lambda event,
-                        arg=image_in_canvas: crop_button_left(event, image_in_canvas, 0))
+                        arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
     pin_body_button.bind("<Button-1>", lambda event,
-                         arg=image_in_canvas: crop_button_left(event, image_in_canvas, 1))
+                         arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
     pin_cap_button.bind("<Button-1>", lambda event,
-                        arg=image_in_canvas: crop_button_left(event, image_in_canvas, 2))
+                        arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 2))
     tilt_check_top_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 3))
+        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 3))
     tilt_check_bottom_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 4))
+        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 4))
     pin_check_top_button.bind("<Button-1>", lambda event,
-                              arg=image_in_canvas: crop_button_left(event, image_in_canvas, 5))
+                              arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
     pin_check_bottom_button.bind(
-        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left(event, image_in_canvas, 6))
+        "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 6))
 
     pin_tip_button.bind("<Button-3>", lambda event,
-                        arg=image_in_canvas: crop_button_right(event, image_in_canvas, 0))
+                        arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 0))
     pin_body_button.bind("<Button-3>", lambda event,
-                         arg=image_in_canvas: crop_button_right(event, image_in_canvas, 1))
+                         arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
     pin_cap_button.bind("<Button-3>", lambda event,
-                        arg=image_in_canvas: crop_button_right(event, image_in_canvas, 2))
+                        arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 2))
     tilt_check_top_button.bind(
-        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 3))
+        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 3))
     tilt_check_bottom_button.bind(
-        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 4))
+        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 4))
     pin_check_top_button.bind("<Button-3>", lambda event,
-                              arg=image_in_canvas: crop_button_right(event, image_in_canvas, 5))
+                              arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
     pin_check_bottom_button.bind(
-        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right(event, image_in_canvas, 6))
+        "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 6))
 
     ############################ Y1 / X1 Settings ############################
     y1_value_label = tk.Label(root, text='Y1')
@@ -767,5 +854,4 @@ if __name__ == '__main__':
 
     mouse_pos = Label(root, text='0')
     info_canvas_bottom.create_window(310, 275, window=mouse_pos)
-    
     root.mainloop()

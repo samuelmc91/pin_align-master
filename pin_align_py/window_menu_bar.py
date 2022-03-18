@@ -5,6 +5,9 @@ import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
 import sys
+import importlib
+import pin_align_auto_config
+# from pin_align_auto_config import *
 
 class Window_Menu():
     def __init__(self, root):
@@ -14,24 +17,22 @@ class Window_Menu():
         self.filemenu = Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="File", menu=self.filemenu)
 
-        self.filemenu.add_command(label="New", command=self.donothing)
-        self.filemenu.add_command(label="Open", command=self.donothing)
+        self.filemenu.add_command(label="Change Image", command=self.donothing)
+        self.filemenu.add_command(label="Change Configuration", command=self.donothing)
         self.filemenu.add_command(label="Save", command=self.donothing)
         self.filemenu.add_command(label="Save as...", command=self.donothing)
-        self.filemenu.add_command(label="Close", command=self.donothing)
         self.filemenu.add_separator()
         self.filemenu.add_command(label="Exit", command=self.root.quit)
         
-        self.editmenu = Menu(self.menubar, tearoff=0)
-        self.menubar.add_cascade(label="Edit", menu=self.editmenu)
+        self.viewmenu = Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label="View", menu=self.viewmenu)
 
-        self.editmenu.add_command(label="Undo", command=self.donothing)
-        self.editmenu.add_separator()
-        self.editmenu.add_command(label="Cut", command=self.donothing)
-        self.editmenu.add_command(label="Copy", command=self.donothing)
-        self.editmenu.add_command(label="Paste", command=self.donothing)
-        self.editmenu.add_command(label="Delete", command=self.donothing)
-        self.editmenu.add_command(label="Select All", command=self.donothing)
+        self.viewmenu.add_command(label="Refresh", command=pin_align_auto_config.update_entry_boxes)
+        self.viewmenu.add_separator()
+        self.viewmenu.add_command(label="Manual", command=self.donothing)
+        self.viewmenu.add_command(label="Clear", command=self.donothing)
+        self.viewmenu.add_command(label="Small Box", command=self.donothing)
+        self.viewmenu.add_command(label="Big Box", command=self.donothing)
 
         self.helpmenu = Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Help", menu=self.helpmenu)
@@ -41,6 +42,33 @@ class Window_Menu():
 
         self.root.config(menu=self.menubar)
 
+    # def update_entry_boxes(self):
+    #     update_config = importlib.reload(pin_align_auto_config.pin_align_config)
+
+    #     pin_align_auto_config.pin_x1_offset_in.delete(0, END)
+    #     pin_align_auto_config.pin_x1_offset_in.insert(END, update_config.PIN_X1_OFFSET)
+    #     pin_align_auto_config.default_pixels_per_mm_in.delete(0, END)
+    #     pin_align_auto_config.default_pixels_per_mm_in.insert(END, update_config.DEFAULT_PIXELS_PER_MM)
+    #     pin_align_auto_config.default_width_in.delete(0, END)
+    #     pin_align_auto_config.default_width_in.insert(END, update_config.DEFAULT_WIDTH)
+    #     pin_align_auto_config.x_center_in.delete(0, END)
+    #     pin_align_auto_config.x_center_in.insert(END, update_config.X_CENTER)
+    #     pin_align_auto_config.y_center_in.delete(0, END)
+    #     pin_align_auto_config.y_center_in.insert(END, update_config.Y_CENTER)
+    #     pin_align_auto_config.default_height_in.delete(0, END)
+    #     pin_align_auto_config.default_height_in.insert(END, update_config.DEFAULT_HEIGHT)
+    #     pin_align_auto_config.min_x_in.delete(0, END)
+    #     pin_align_auto_config.min_x_in.insert(END, update_config.MIN_X)
+    #     pin_align_auto_config.min_y_in.delete(0, END)
+    #     pin_align_auto_config.min_y_in.insert(END, update_config.MIN_Y)
+    #     pin_align_auto_config.min_z_in.delete(0, END)
+    #     pin_align_auto_config.min_z_in.insert(END, update_config.MIN_Z)
+    #     pin_align_auto_config.max_x_in.delete(0, END)
+    #     pin_align_auto_config.max_x_in.insert(END, update_config.MAX_X)
+    #     pin_align_auto_config.max_y_in.delete(0, END)
+    #     pin_align_auto_config.max_y_in.insert(END, update_config.MAX_Y)
+    #     pin_align_auto_config.max_z_in.delete(0, END)
+    #     pin_align_auto_config.max_z_in.insert(END, update_config.MAX_Z)
     def donothing(self):
         filewin = Toplevel(root)
         button = Button(filewin, text="Do nothing button")

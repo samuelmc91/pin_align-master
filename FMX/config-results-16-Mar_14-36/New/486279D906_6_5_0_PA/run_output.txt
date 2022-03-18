@@ -1,7 +1,0 @@
-Processing pin images
-0 degree:  486279D906_6_5_0_PA_0_001.jpg
-90 degrees;  486279D906_6_5_0_PA_90_001.jpg
-Files in:  /home/samuel/Desktop/Projects/pin_align-master/FMX/Results/486279D906_6_5_0_PA_New/samuel_pin_align_201371
-CAP TILTED
-PIN MISSING
-X, Y, Z WITHIN LIMITS
