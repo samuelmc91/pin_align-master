@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 from datetime import datetime
+import numpy as np
 
 now = datetime.now()
 root = os.getcwd()
@@ -29,13 +30,15 @@ def reset_results(dir_path, dir_type):
         mov_dir = os.path.join(results_dir, new_fname)
         shutil.move(f, mov_dir)
     os.chdir(root)
-
-    
+  
 def test_fmx():
     imgs = [f for f in os.listdir(img_dir) if f.split('.')[-1] == 'jpg']
     imgs.sort()
-
-    run_count = 1
+    user_choice = input('Enter all or the number of images to test: ')
+    if user_choice == 'all':
+        test_image_index = range(0, len(imgs)-1, 2)
+    else:
+         test_image_index = list(np.random.choice(np.arange(0,len(imgs),2), int(user_choice), replace=False))
     for i in range(0, len(imgs)-1, 2):
         run_img_0 = os.path.join(img_dir, imgs[i])
         run_img_90 = os.path.join(img_dir, imgs[i+1])
@@ -53,7 +56,7 @@ def test_fmx():
 
             os.chdir(old_out_dir)
 
-            old_outputs = os.popen(f'bash {root}/FMX/pin_align-old/pin_align_fmx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            old_outputs = os.popen(f'bash {root}/pin_align-old/pin_align_fmx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             old_config = open('run_output.txt', 'w')
             old_config.writelines(old_outputs)
@@ -73,16 +76,13 @@ def test_fmx():
 
             os.chdir(new_out_dir)
 
-            new_outputs = os.popen(f'bash {root}/FMX/pin_align_fmx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            new_outputs = os.popen(f'bash {root}/pin_align_fmx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             new_config = open('run_output.txt', 'w')
             new_config.writelines(new_outputs)
 
             new_config.close()
             os.chdir(img_dir)
-        # run_count += 1
-        # if run_count == 50:
-        #     break
     os.chdir(root)
 
 new_dir = os.path.join(root, 'New')

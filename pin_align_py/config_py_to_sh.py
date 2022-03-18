@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import re
+import shutil
 
 def change_config_file(config_file_path, line_text, new_value):
     lines = open(config_file_path, 'r').readlines()
@@ -12,7 +13,10 @@ def change_config_file(config_file_path, line_text, new_value):
     out.close()
 
 def convert_to_bash(config_file_path):
-    python_config = open(config_file_path, 'r')
+    if os.path.basename(config_file_path).split('.')[-1] != 'py':
+        python_config = open(os.path.join(os.getcwd(), 'pin_align_config.py'), 'r')
+    else:
+        python_config = open(config_file_path, 'r')
     motor_values = ['X_POS', 'Y_POS', 'Z_POS']
     bash_config_path = 'pin_align_config.sh'
 
@@ -40,6 +44,10 @@ def convert_to_bash(config_file_path):
                         pass
             bash_config.close()
     python_config.close()
+    if os.path.basename(config_file_path).split('.')[-1] != 'py':
+        shutil.copy(bash_config_path, os.path.join(os.path.abspath(os.pardir), config_file_path))
+    else:
+        shutil.copy(bash_config_path, os.path.abspath(os.pardir))
     
 if __name__ == '__main__':
     convert_to_bash('pin_align_config.py')

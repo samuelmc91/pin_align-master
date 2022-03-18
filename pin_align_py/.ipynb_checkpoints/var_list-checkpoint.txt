@@ -1,0 +1,1 @@
+pin_x1_offset_in.delete(0, END)

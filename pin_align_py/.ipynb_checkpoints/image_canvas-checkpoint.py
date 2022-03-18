@@ -134,30 +134,29 @@ class Image_Canvas():
             X1, Y1, X2, Y2, fill='', outline='red')
 
     def center_pin_image(self, X, Y):
-        try:
-            X1 = X - 15
-            X2 = X + 15
-            Y1 = Y - 15
-            Y2 = Y + 15
+        X1 = X - 15
+        X2 = X + 15
+        Y1 = Y - 15
+        Y2 = Y + 15
 
-            self.get_image(X1, X2, Y1, Y2)
-            small_box_edge = self.image_bw
+        self.get_image(X1, X2, Y1, Y2)
+        small_box_edge = self.image_bw
 
-            for col in range(small_box_edge.shape[0]):
-                black_pixels = []
-                if 0 in small_box_edge[:, col]:
-                    for row in range(len(small_box_edge[:, col])):
-                        if small_box_edge[row, col] == 0:
-                            black_pixels.append([col,row])
-                if len(black_pixels) >= 3:
-                    middle_index = len(black_pixels) // 2
-                    pixel_location = black_pixels[middle_index]
-                    break
-            new_x = X + (pixel_location[0] - 15)
-            new_y = Y + (pixel_location[1] - 15)
-        except:
-            new_x = False
-            new_y = False
+        for col in range(small_box_edge.shape[0]):
+            black_pixels = []
+            if 0 in small_box_edge[:, col]:
+                for row in range(len(small_box_edge[:, col])):
+                    if small_box_edge[row, col] == 0:
+                        black_pixels.append([col,row])
+            if len(black_pixels) >= 3:
+                middle_index = len(black_pixels) // 2
+                pixel_location = black_pixels[middle_index]
+                break
+
+        print(pixel_location)
+        new_x = X + (pixel_location[0] - 15)
+        new_y = Y + (pixel_location[1] - 15)
+
         return [new_x, new_y]
 
     def delete_crop_rect(self, rect):

@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 from datetime import datetime
+import numpy as np
 
 now = datetime.now()
 root = os.getcwd()
@@ -29,14 +30,16 @@ def reset_results(dir_path, dir_type):
         mov_dir = os.path.join(results_dir, new_fname)
         shutil.move(f, mov_dir)
     os.chdir(root)
-
-    
+ 
 def test_amx():
     imgs = [f for f in os.listdir(img_dir) if f.split('.')[-1] == 'jpg']
     imgs.sort()
-
-    run_count = 1
-    for i in range(0, len(imgs)-1, 2):
+    user_choice = input('Enter all or the number of images to test: ')
+    if user_choice == 'all':
+        test_image_index = range(0, len(imgs)-1, 2)
+    else:
+        test_image_index = list(np.random.choice(np.arange(0,len(imgs),2), int(user_choice), replace=False))
+    for i in test_image_index:
         run_img_0 = os.path.join(img_dir, imgs[i])
         run_img_90 = os.path.join(img_dir, imgs[i+1])
 
@@ -53,7 +56,7 @@ def test_amx():
 
             os.chdir(old_out_dir)
 
-            old_outputs = os.popen(f'bash {root}/AMX/pin_align-old/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            old_outputs = os.popen(f'bash {root}/pin_align-old/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             old_config = open('run_output.txt', 'w')
             old_config.writelines(old_outputs)
@@ -73,16 +76,13 @@ def test_amx():
 
             os.chdir(new_out_dir)
 
-            new_outputs = os.popen(f'bash {root}/AMX/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
+            new_outputs = os.popen(f'bash {root}/pin_align_amx.sh ' + os.path.basename(run_img_0) + ' ' + os.path.basename(run_img_90)).readlines()
 
             new_config = open('run_output.txt', 'w')
             new_config.writelines(new_outputs)
 
             new_config.close()
             os.chdir(img_dir)
-        # run_count += 1
-        # if run_count == 50:
-        #     break
     os.chdir(root)
 
 new_dir = os.path.join(root, 'New')
@@ -93,34 +93,8 @@ old_dir = os.path.join(root, 'Old')
 if not os.path.exists(old_dir):
     os.mkdir('Old')
             
-# if len(os.listdir(results_dir)) < 5:
-#     print('Enter 1 to run tests and continue\n\
-# Enter 2 to run tests and exit before result processing\n\
-# Enter 3 to reset test results and continue\n\
-# Enter 4 to reset test results and exit\n\
-# Enter 5 to exit\n')
-#     user_choice = int(input('Enter your choice: '))
-#     if user_choice == 1:
-#         test_amx()
-#     elif user_choice == 2:
-#         test_amx()
-#         sys.exit()
-#     elif user_choice == 3:
-#         reset_results(new_dir, 'New')
-#         reset_results(old_dir, 'Old')
-#         print('##### Reset Done #####')
-#     elif user_choice == 4:
-#         reset_results(new_dir, 'New')
-#         reset_results(old_dir, 'Old')
-#         print('##### Reset Done #####')
-#         sys.exit(0)
-#     elif user_choice == 5:
-#         sys.exit(0)
-#     else:
-#         print('Not a valid choice')
-#         sys.exit()
-
 test_amx()
+
 tmp_dir = 'config-results-' + now.strftime('%d-%b_%H-%M')
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
