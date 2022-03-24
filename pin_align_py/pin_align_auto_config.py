@@ -7,27 +7,26 @@ import sys
 import pyautogui
 import re
 import importlib
+import time
 
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog as fd
 from tkinter import *
 from PIL import Image, ImageTk
-
+from multiprocessing import Process
 ############### Local Packages ###############
-from tool_tip import CreateToolTip
 from image_canvas import Image_Canvas
 import pin_align_config
+from test_config import test_config, get_num_images
 from pin_align_config import *
-import window_menu_bar
 from config_py_to_sh import convert_to_bash
-
 ############### Global Variables ###############
 global display_help_image_tk
 global display_help_image
 global on_off_list
 global auto_start_on_off
-
+global filetypes
 ############### Rect & Edge ###############
 on_off_list = [[False, False],  # Pin Tip
                [False, False],  # Pin Body
@@ -38,6 +37,14 @@ on_off_list = [[False, False],  # Pin Tip
                [False, False],  # Pin Check Bottom
                [False, False],  # Small Box
                [False, False]]  # Big Box
+
+filetypes = (
+        ('All files', '*.*'),
+        ('Image files', '*.jpg'),
+        ('Python files', '*.py'),
+        ('Bash files', '*.sh'),
+        ('Text files', '*.txt')
+    )
 
 file_root = os.getcwd()
 config_file_path = os.path.join(file_root, 'pin_align_config.py')
@@ -98,15 +105,12 @@ def save_config(new_filepath):
     return
 
 def save_config_as():
-    popup = Toplevel(root)
-    x = root.winfo_x()
-    y = root.winfo_y()
-    popup.geometry("%dx%d+%d+%d" % (250, 50, x + 500, y + 500))
-    filename_in = Entry(popup, width=100)
-    filename_in.pack()
-    ok_button = Button(popup, text='Save', command=lambda:[save_config(filename_in.get()),
-                                                            popup.destroy()])
-    ok_button.pack()
+    global filetypes
+    filename = fd.asksaveasfilename(initialdir=os.path.abspath(os.pardir), title='Save Config', defaultextension='.sh',
+                                    filetypes=filetypes)
+    if filename:
+        convert_to_bash(filename)
+    return
 
 def crop_button_left_click(event, image_in_canvas, button_choice):
     global on_off_list
@@ -264,14 +268,7 @@ def change_config_file(config_file_path, line_text, new_value):
     out.close()
 
 def select_files():
-    filetypes = (
-        ('All files', '*.*'),
-        ('Image files', '*.jpg'),
-        ('Python files', '*.py'),
-        ('Bash files', '*.sh'),
-        ('Text files', '*.txt')
-    )
-
+    global filetypes
     filename = fd.askopenfilename(
         title='Open a file',
         initialdir=os.path.abspath(os.pardir),
@@ -280,25 +277,27 @@ def select_files():
 
 def switch_gui_config():
     filename = select_files()
-    try:
-        for line in open(filename, 'r').readlines():
-            if line.split('=')[0] == 'X_CENTER':
-                new_x_center = line.split('=$((')[-1].replace('))', '').strip()
-            elif line.split('=')[0] == 'Y_CENTER':
-                new_y_center = line.split('=$((')[-1].replace('))', '').strip()
-            else:
-                pass
-        x_center_in.delete(0, END)
-        x_center_in.insert(END, new_x_center)
-        y_center_in.delete(0, END)
-        y_center_in.insert(END, new_y_center)
-        auto_submit_button_left("<Button-1>", image_in_canvas)
-    except Exception as e:
-        print(e)
+    if filename:
+        try:
+            for line in open(filename, 'r').readlines():
+                if line.split('=')[0] == 'X_CENTER':
+                    new_x_center = line.split('=$((')[-1].replace('))', '').strip()
+                elif line.split('=')[0] == 'Y_CENTER':
+                    new_y_center = line.split('=$((')[-1].replace('))', '').strip()
+                else:
+                    pass
+            x_center_in.delete(0, END)
+            x_center_in.insert(END, new_x_center)
+            y_center_in.delete(0, END)
+            y_center_in.insert(END, new_y_center)
+            auto_submit_button_left("<Button-1>", image_in_canvas)
+        except Exception as e:
+            print(e)
 
 def switch_gui_image():
     filename = select_files()
-    os.execv(sys.argv[0], [sys.argv[0], filename])
+    if filename:
+        os.execv(sys.argv[0], [sys.argv[0], filename])
     pass
 
 def auto_submit_button_left(event, image_in_canvas):
@@ -346,14 +345,16 @@ def auto_submit_button_left(event, image_in_canvas):
         config_file_path, 'DEFAULT_PIXELS_PER_MM', str(default_pixels_per_mm_in.get()))
         minor_entry_change = True
     ### LOOKING FOR CHANGES TO X, Y, Z POSITIVE DIRECTION ###
-    if (x_pos_in.get()) != str(submit_config_update.X_POS):
+    if str(x_pos_in.get()) != str(submit_config_update.X_POS):
         change_config_file(config_file_path, 'X_POS',
                            str(x_pos_in.get()))
+        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), True)
         minor_entry_change = True
-    if (y_pos_in.get()) != str(submit_config_update.Y_POS):
+    if str(y_pos_in.get()) != str(submit_config_update.Y_POS):
         change_config_file(config_file_path, 'Y_POS',
                            str(y_pos_in.get()))
         minor_entry_change = True
+        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), True)
     if (z_pos_in.get()) != str(submit_config_update.Z_POS):
         change_config_file(config_file_path, 'Z_POS',
                            str(z_pos_in.get()))
@@ -525,7 +526,8 @@ def auto_submit_button_left(event, image_in_canvas):
     else:
         print('pass')
 
-def donothing():
+def donothing(button):
+    print(f'##### {button} Working #####')
     pass
 
 if __name__ == '__main__':
@@ -555,9 +557,9 @@ if __name__ == '__main__':
     image_in_canvas = Image_Canvas(root)
     # root_menu = window_menu_bar.Window_Menu(root)
     ########################### Toolbar Canvas ############################
-    menubar = Menu(root, relief='sunken')
+    menubar = Menu(root, relief='raised')
 
-    filemenu = Menu(menubar, tearoff=0)
+    filemenu = Menu(menubar, tearoff=1)
     menubar.add_cascade(label="File", menu=filemenu)
 
     filemenu.add_command(label="Save", command=convert_to_bash(config_file_path))
@@ -567,23 +569,97 @@ if __name__ == '__main__':
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=root.quit)
     
-    viewmenu = Menu(menubar, tearoff=0)
+    viewmenu = Menu(menubar, tearoff=1)
     menubar.add_cascade(label="View", menu=viewmenu)
 
     viewmenu.add_command(label="Refresh", command=update_entry_boxes)
     viewmenu.add_command(label="Manual", command=image_in_canvas.start_self_crop)
     viewmenu.add_command(label="Clear", command=lambda: clear_image_canvas(image_in_canvas))
+    viewmenu.add_command(label="Zoom", command=lambda: donothing('zoom'))
     viewmenu.add_separator()
-    viewmenu.add_command(label="Big Box Edges", command=lambda:crop_button_right_click("<Button-3>",image_in_canvas,8))
-    viewmenu.add_command(label="Big Box Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,8))
-    viewmenu.add_command(label="Small Box Edges", command=lambda: crop_button_right_click("<Button-3>",image_in_canvas,7))
-    viewmenu.add_command(label="Small Box Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
+
+    bbmenu = Menu(viewmenu, tearoff=0)
+    viewmenu.add_cascade(label='Big Box', menu=bbmenu)
+    bbmenu.add_command(label="Edges", command=lambda:crop_button_right_click("<Button-3>",image_in_canvas,8))
+    bbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,8))
+
+    sbmenu = Menu(viewmenu, tearoff=0)
+    viewmenu.add_cascade(label='Small Box', menu=sbmenu)
+    sbmenu.add_command(label="Edges", command=lambda: crop_button_right_click("<Button-3>",image_in_canvas,7))
+    sbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
+
+    testmenu = Menu(menubar, tearoff=1)
+    menubar.add_cascade(label="Test", menu=testmenu)
+
+    amxmenu = Menu(testmenu, tearoff=0)
+    testmenu.add_cascade(label="AMX", menu=amxmenu)
+    amx_randomize = BooleanVar()
+    amxmenu.add_checkbutton(label='Randomize Test', variable=amx_randomize, onvalue=1, offvalue=0)
+    amxmenu.add_separator()
+    amx_test_num = (get_num_images('AMX') // 2)
+    if amx_test_num >= 100:
+        amx_test_split = amx_test_num // 5
+        amx_label_list = []
+        def test_config_button(beamline, randomize, user_choice):
+            run_tests_thread = Process(target=test_config, args=(beamline, randomize, user_choice,))
+            # running_message = Process(target=messagebox.showinfo, args=('Working', 'Testing'))
+            running_top = Toplevel(root)
+            running_top.title('Testing')
+            # running_top.geometry('200x150')
+            x = root.winfo_x()
+            y = root.winfo_y()
+            running_top.geometry("%dx%d+%d+%d" % (250, 150, x + 350, y + 350))
+            r_message = Message(running_top, text='Running Tests', padx=100, pady=10)
+            r_message.pack()
+            def disable_event():
+                pass
+            def close_r_top():
+                running_top.destroy()
+            pb = ttk.Progressbar(
+                        running_top,
+                        orient = HORIZONTAL,
+                        length = 100,
+                        mode = 'determinate'
+                        )
+            pb.place(x=125, y=50)
+            pb.pack()
+            running_top.protocol('WM_DELETE_WINDOW', disable_event)
+            run_tests_thread.start()
+            while run_tests_thread.is_alive():
+                running_top.update()
+            r_message.destroy()
+            pb.destroy()
+            f_message = Message(running_top, text='Finished')
+            f_message.pack()
+            ok_button = Button(running_top, text='Ok', command=close_r_top)
+            ok_button.pack()
+            # running_top.destroy()
+            # messagebox.Message(master=root, title='Complete', message='Testing finished').show()
+            # running_message.start()
+
+        for i in range(10, amx_test_num, amx_test_split):
+            amx_label_list.append(f'{i}')
+        amxmenu.add_command(label=f'{amx_label_list[0]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[0]))
+        amxmenu.add_command(label=f'{amx_label_list[1]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[1]))
+        amxmenu.add_command(label=f'{amx_label_list[2]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[2]))
+        amxmenu.add_command(label=f'{amx_label_list[3]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[3]))
+        amxmenu.add_command(label=f'{amx_label_list[4]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[4]))
+
+    amxmenu.add_command(label=f'{amx_test_num}', command=lambda: test_config('AMX', amx_randomize, amx_test_num))
+    testmenu.add_separator()
+
+    fmxmenu = Menu(testmenu, tearoff=0)
+    testmenu.add_cascade(label="FMX", menu=fmxmenu)
+    fmxmenu.add_command(label='All', command=lambda: donothing('fmx all'))
 
     helpmenu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Help", menu=helpmenu)
     
-    helpmenu.add_command(label="Help Index", command=donothing)
-    helpmenu.add_command(label="About...", command=donothing)
+    helpmenu.add_command(label="X,Y,Z Direction", command=lambda: 
+                         image_in_canvas.show_xyz_dir(x_pos_in.get(),
+                                                      y_pos_box.get(), False))
+    helpmenu.add_command(label="Help Index", command=lambda: donothing('help index'))
+    helpmenu.add_command(label="About...", command=lambda: donothing('about'))
 
     root.config(menu=menubar)
 
@@ -824,11 +900,11 @@ if __name__ == '__main__':
 
     y1_value_in = tk.Entry(root, justify='center')
     y1_value_in.insert(END, '0')
-    y_value_in_ttp = CreateToolTip(y1_value_in, 'Default is 0')
+
     info_canvas_bottom.create_window(450, 345, window=y1_value_in)
     x1_value_in = tk.Entry(root, justify='center')
     x1_value_in.insert(END, '0')
-    x_value_in_ttp = CreateToolTip(x1_value_in, 'Default is 0')
+
     info_canvas_bottom.create_window(150, 345, window=x1_value_in)
 
     ############################ X2 / Y2 Settings ############################
@@ -842,12 +918,12 @@ if __name__ == '__main__':
 
     x2_value_in = tk.Entry(root, justify='center')
     x2_value_in.insert(END, '0')
-    w_value_in_ttp = CreateToolTip(x2_value_in, 'Default is 0')
+
     info_canvas_bottom.create_window(150, 420, window=x2_value_in)
 
     y2_value_in = tk.Entry(root, justify='center')
     y2_value_in.insert(END, '0')
-    h_value_in_ttp = CreateToolTip(y2_value_in, 'Default is 0')
+
     info_canvas_bottom.create_window(450, 420, window=y2_value_in)
     
     ############################ Misc Settings ############################

@@ -24,6 +24,7 @@ class Image_Canvas():
 
         self.self_crop_on = False
         self.auto_crop_on = False
+        self.show_xyz_help = False
         self.line = False
         self.big_box = False
         self.small_box = False
@@ -39,6 +40,61 @@ class Image_Canvas():
         self.im = Image.fromarray(self.im_in)
         self.tk_im = ImageTk.PhotoImage(self.im)
         self.screen_canvas.create_image(0, 0, anchor='nw', image=self.tk_im)
+        
+
+    def xyz_dir_help_window(self):
+        self.xyz_help_rec = self.screen_canvas.create_rectangle((self.im_width-140), (self.im_height-120), self.im_width, 
+                                                                self.im_height, fill='white')
+        self.y_dir_label = tk.Label(self.master, text='Y-Direction')
+        self.y_dir_label.config(font=('helvetica', 8), bg='white', fg='green')
+        self.x_dir_label = tk.Label(self.master, text='X-Direction')
+        self.x_dir_label.config(font=('helvetica', 8), bg='white', fg='red')
+        self.rec_y_center = self.im_height - 60
+        self.rec_x_center = self.im_width - 70
+        self.x_dir_label_win = self.screen_canvas.create_window(self.rec_x_center+40, 
+                                                                self.rec_y_center-50, window=self.y_dir_label)
+        
+        self.y_dir_label_win = self.screen_canvas.create_window(self.rec_x_center+40, 
+                                                                self.rec_y_center-35, window=self.x_dir_label)
+        if self.x_pos_dir == 'True':
+            self.x_pos_line = self.screen_canvas.create_line(self.rec_x_center, self.rec_y_center, self.rec_x_center-50, 
+                                                                self.rec_y_center, arrow=tk.LAST, fill='red')  # X Arrow 1
+        else:
+            self.x_pos_line = self.screen_canvas.create_line(self.rec_x_center, self.rec_y_center, self.rec_x_center+50, 
+                                                                self.rec_y_center, arrow=tk.LAST, fill='red')  # X Arrow 2
+        
+        if self.y_pos_dir == 'True':
+            self.y_pos_line = self.screen_canvas.create_line(self.rec_x_center, self.rec_y_center, self.rec_x_center, 
+                                                                self.rec_y_center-50, arrow=tk.LAST, fill='green')  # Y Arrow 1
+        else:
+            self.y_pos_line = self.screen_canvas.create_line(self.rec_x_center, self.rec_y_center, self.rec_x_center, 
+                                                                self.rec_y_center+50, arrow=tk.LAST, fill='green')  # Y Arrow 2
+
+        self.center_oval = self.screen_canvas.create_oval(self.rec_x_center-5, self.rec_y_center-5, 
+                                                            self.rec_x_center+5, self.rec_y_center+5, fill='black')
+
+    def show_xyz_dir(self, x_pos_dir, y_pos_dir, submit_change):
+        self.x_pos_dir = x_pos_dir
+        self.y_pos_dir = y_pos_dir
+        if not self.show_xyz_help:
+            self.show_xyz_help = True
+            self.xyz_dir_help_window()
+        elif self.show_xyz_help and submit_change:
+            self.hide_xyz_help_window()
+            self.show_xyz_help = True
+            self.xyz_dir_help_window()
+        else:
+            self.hide_xyz_help_window()
+
+    def hide_xyz_help_window(self):
+            self.show_xyz_help = False
+            self.screen_canvas.delete(self.xyz_help_rec)
+            self.screen_canvas.delete(self.y_dir_label_win)
+            self.screen_canvas.delete(self.x_dir_label_win)
+            self.screen_canvas.delete(self.y_pos_line)
+            self.screen_canvas.delete(self.x_pos_line)
+            self.screen_canvas.delete(self.center_oval)
+            return
     
     def clear_canvas(self, on_off_list):
         if self.small_box:
