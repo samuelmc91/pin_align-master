@@ -8,17 +8,17 @@ import pyautogui
 import re
 import importlib
 import time
-
+import random
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog as fd
 from tkinter import *
 from PIL import Image, ImageTk
-from multiprocessing import Process
+from multiprocessing import Process, Queue, Pool
 ############### Local Packages ###############
 from image_canvas import Image_Canvas
 import pin_align_config
-from test_config import test_config, get_num_images
+from test_config import Test_Config
 from pin_align_config import *
 from config_py_to_sh import convert_to_bash
 ############### Global Variables ###############
@@ -348,22 +348,25 @@ def auto_submit_button_left(event, image_in_canvas):
     if str(x_pos_in.get()) != str(submit_config_update.X_POS):
         change_config_file(config_file_path, 'X_POS',
                            str(x_pos_in.get()))
-        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), True)
         minor_entry_change = True
+        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
     if str(y_pos_in.get()) != str(submit_config_update.Y_POS):
         change_config_file(config_file_path, 'Y_POS',
                            str(y_pos_in.get()))
         minor_entry_change = True
-        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), True)
+        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
     if (z_pos_in.get()) != str(submit_config_update.Z_POS):
         change_config_file(config_file_path, 'Z_POS',
                            str(z_pos_in.get()))
         minor_entry_change = True
-
+        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
+    
+    if minor_entry_change:
+        convert_to_bash(config_file_path)
     if X_POS:
         # The cap is on the right and the pin goes to the left
         rtl = True
-    elif not X_POS:
+    else:
         ltr = True
 
     if rtl:
@@ -562,7 +565,7 @@ if __name__ == '__main__':
     filemenu = Menu(menubar, tearoff=1)
     menubar.add_cascade(label="File", menu=filemenu)
 
-    filemenu.add_command(label="Save", command=convert_to_bash(config_file_path))
+    filemenu.add_command(label="Save", command=lambda: convert_to_bash(config_file_path))
     filemenu.add_command(label="Save as...", command=save_config_as)
     filemenu.add_command(label="Change Image", command=switch_gui_image)
     filemenu.add_command(label="Change Configuration", command=switch_gui_config)
@@ -589,50 +592,71 @@ if __name__ == '__main__':
     sbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
 
     testmenu = Menu(menubar, tearoff=1)
-    menubar.add_cascade(label="Test", menu=testmenu)
+    #menubar.add_cascade(label="Test", menu=testmenu)
 
     amxmenu = Menu(testmenu, tearoff=0)
     testmenu.add_cascade(label="AMX", menu=amxmenu)
     amx_randomize = BooleanVar()
     amxmenu.add_checkbutton(label='Randomize Test', variable=amx_randomize, onvalue=1, offvalue=0)
     amxmenu.add_separator()
-    amx_test_num = (get_num_images('AMX') // 2)
+    amx_test_data = Test_Config('AMX')
+    amx_test_num = amx_test_data.num_imgs
     if amx_test_num >= 100:
         amx_test_split = amx_test_num // 5
         amx_label_list = []
+    
         def test_config_button(beamline, randomize, user_choice):
-            run_tests_thread = Process(target=test_config, args=(beamline, randomize, user_choice,))
-            # running_message = Process(target=messagebox.showinfo, args=('Working', 'Testing'))
-            running_top = Toplevel(root)
-            running_top.title('Testing')
-            # running_top.geometry('200x150')
-            x = root.winfo_x()
-            y = root.winfo_y()
-            running_top.geometry("%dx%d+%d+%d" % (250, 150, x + 350, y + 350))
-            r_message = Message(running_top, text='Running Tests', padx=100, pady=10)
-            r_message.pack()
+            global cancel_running_tests
+            cancel_running_tests = False
             def disable_event():
                 pass
-            def close_r_top():
+
+            def close_r_top(running_top):
                 running_top.destroy()
-            pb = ttk.Progressbar(
-                        running_top,
-                        orient = HORIZONTAL,
-                        length = 100,
-                        mode = 'determinate'
-                        )
-            pb.place(x=125, y=50)
-            pb.pack()
+            
+            def cancel_r_top(proc):
+                user_confirm = messagebox.askokcancel('Confirm', 'Are you sure you want to cancel?')
+                if user_confirm:
+                    proc.kill()
+                else:
+                    pass
+            running_top = Toplevel(root)
+            x = root.winfo_x()
+            y = root.winfo_y()
+            running_top.geometry(f"{150}x{75}+{x+350}+{y+350}")
+            running_top.title('Testing')
             running_top.protocol('WM_DELETE_WINDOW', disable_event)
-            run_tests_thread.start()
-            while run_tests_thread.is_alive():
+            running_top.resizable(0,0)
+            r_message = Message(running_top, text='Running Tests', justify='center', width=100)
+            r_message.pack()
+
+            pb = ttk.Progressbar(running_top, orient = HORIZONTAL, length = 150, maximum=user_choice, mode = 'determinate')
+            pb.pack()
+            
+            cancel_button = Button(running_top, text='Cancel')
+            cancel_button.pack()
+            
+            amx_index_list = amx_test_data.get_index_list(randomize, user_choice)
+            run_index = 0
+            run_test_pool = Pool(int(user_choice))
+            for i in amx_index_list:
+                run_test_pool.apply(target=amx_test_data.run_test, args=(i,))
+                pb.step()
                 running_top.update()
-            r_message.destroy()
-            pb.destroy()
-            f_message = Message(running_top, text='Finished')
+                run_index += 1
+            
+            
+            cancel_button.destroy()
+            cancel_button = Button(running_top, text='Cancel', command=lambda: close_r_top(running_top))
+            cancel_button.pack()
+
+            running_top_finish = Toplevel(root)
+            running_top_finish.geometry(f"{150}x{75}+{x+350}+{y+350}")
+            f_message = Message(running_top_finish, text='Finished', justify='center', width=100)
             f_message.pack()
-            ok_button = Button(running_top, text='Ok', command=close_r_top)
+            ok_button = Button(running_top_finish, text='Ok', command=lambda: close_r_top(running_top_finish))
             ok_button.pack()
+            
             # running_top.destroy()
             # messagebox.Message(master=root, title='Complete', message='Testing finished').show()
             # running_message.start()
@@ -640,12 +664,12 @@ if __name__ == '__main__':
         for i in range(10, amx_test_num, amx_test_split):
             amx_label_list.append(f'{i}')
         amxmenu.add_command(label=f'{amx_label_list[0]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[0]))
-        amxmenu.add_command(label=f'{amx_label_list[1]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[1]))
-        amxmenu.add_command(label=f'{amx_label_list[2]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[2]))
-        amxmenu.add_command(label=f'{amx_label_list[3]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[3]))
-        amxmenu.add_command(label=f'{amx_label_list[4]}', command=lambda: test_config('AMX', amx_randomize, amx_label_list[4]))
+        amxmenu.add_command(label=f'{amx_label_list[1]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[1]))
+        amxmenu.add_command(label=f'{amx_label_list[2]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[2]))
+        amxmenu.add_command(label=f'{amx_label_list[3]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[3]))
+        amxmenu.add_command(label=f'{amx_label_list[4]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[4]))
 
-    amxmenu.add_command(label=f'{amx_test_num}', command=lambda: test_config('AMX', amx_randomize, amx_test_num))
+    amxmenu.add_command(label=f'{amx_test_num}', command=lambda: test_config_button('AMX', amx_randomize, amx_test_num))
     testmenu.add_separator()
 
     fmxmenu = Menu(testmenu, tearoff=0)
@@ -657,7 +681,9 @@ if __name__ == '__main__':
     
     helpmenu.add_command(label="X,Y,Z Direction", command=lambda: 
                          image_in_canvas.show_xyz_dir(x_pos_in.get(),
-                                                      y_pos_box.get(), False))
+                                                      y_pos_in.get(),
+                                                      z_pos_in.get(), 
+                                                      False))
     helpmenu.add_command(label="Help Index", command=lambda: donothing('help index'))
     helpmenu.add_command(label="About...", command=lambda: donothing('about'))
 

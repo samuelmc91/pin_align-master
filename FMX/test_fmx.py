@@ -39,7 +39,9 @@ def test_fmx():
         test_image_index = range(0, len(imgs)-1, 2)
     else:
          test_image_index = list(np.random.choice(np.arange(0,len(imgs),2), int(user_choice), replace=False))
-    for i in range(0, len(imgs)-1, 2):
+        #  print(len(test_image_index))
+        #  print(head(test_image_index))
+    for i in test_image_index:
         run_img_0 = os.path.join(img_dir, imgs[i])
         run_img_90 = os.path.join(img_dir, imgs[i+1])
 
@@ -154,7 +156,8 @@ off_e_count = 0
 results_file = open(os.path.join(tmp_dir, 'results.txt'), 'w')
 for i in range(len(new_files)):
     f_new = open(os.path.join(new_files[i], 'run_output.txt'), 'r').readlines()
-    f_old = open(os.path.join(old_files[i], 'run_output.txt'), 'r').readlines()  
+    f_old = open(os.path.join(old_files[i], 'run_output.txt'), 'r').readlines()
+    # print(f_new)
     try:
         pos_lines_new = f_new[-4].split('PX ')[-1]
         pos_lines_old = f_old[-4].split('PX ')[-1]
@@ -174,6 +177,8 @@ for i in range(len(new_files)):
             pos_c_count += 1
         else:       
             new_run_results = os.path.join(new_files[i], f_new[3].split(': ')[-1].split('/')[-1].strip())
+            # print(new_run_results)
+            print(new_files[i])
             old_run_results = os.path.join(old_files[i], f_old[5].split(': ')[-1].split('/')[-1].strip())
             pos_nc_count += 1
             results_file.write('Position Incorrect in File: {}\n'.format(os.path.basename(new_files[i])))
