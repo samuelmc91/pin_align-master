@@ -1,11 +1,8 @@
-import os
-import numpy as np
 import cv2
 import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
 import sys
-
 
 class Image_Canvas():
     def __init__(self, master):

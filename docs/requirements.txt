@@ -1,0 +1,20 @@
+Tkinter:
+	Version: 3.8.10
+	Install:
+		Deb-Based: sudo apt-get install python3-tk
+		Arch-Based: sudo pacman -S tk
+		Fedora-Based: sudo dnf install python3-tkinter
+		RHEL-Based: sudo yum install -y  tkinter tk-devel
+		Mac: brew install python3-tk
+Numpy:
+	Version: numpy==1.22.3
+	Install: python3 -m pip install numpy
+
+OpenCV:
+	Version: opencv-python==4.5.5.64
+	Install: python3 -m pip install opencv-python
+	
+Pillow:
+	Version: Pillow==9.0.1
+	Install: python3 -m pip install Pillow
+

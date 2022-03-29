@@ -1,24 +1,18 @@
 #!/usr/bin/python3
 import os
-import numpy as np
-import cv2
 import tkinter as tk
 import sys
-import pyautogui
 import re
 import importlib
-import time
-import random
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog as fd
 from tkinter import *
-from PIL import Image, ImageTk
-from multiprocessing import Process, Queue, Pool
+from PIL import Image
+import time
 ############### Local Packages ###############
 from image_canvas import Image_Canvas
 import pin_align_config
-from test_config import Test_Config
 from pin_align_config import *
 from config_py_to_sh import convert_to_bash
 ############### Global Variables ###############
@@ -70,9 +64,12 @@ def get_pin_crops():
                  [inputs.PIN_X1_OFFSET, None]]
     return pin_crops
 
-def update_entry_boxes():
+def update_entry_boxes(x_center=None, y_center=None):
     update_config = importlib.reload(pin_align_config)
-
+    if not x_center:
+        x_center = update_config.X_CENTER
+    if not y_center:
+        y_center = update_config.Y_CENTER
     pin_x1_offset_in.delete(0, END)
     pin_x1_offset_in.insert(END, update_config.PIN_X1_OFFSET)
     default_pixels_per_mm_in.delete(0, END)
@@ -80,9 +77,9 @@ def update_entry_boxes():
     default_width_in.delete(0, END)
     default_width_in.insert(END, update_config.DEFAULT_WIDTH)
     x_center_in.delete(0, END)
-    x_center_in.insert(END, update_config.X_CENTER)
+    x_center_in.insert(END, x_center)
     y_center_in.delete(0, END)
-    y_center_in.insert(END, update_config.Y_CENTER)
+    y_center_in.insert(END, y_center)
     default_height_in.delete(0, END)
     default_height_in.insert(END, update_config.DEFAULT_HEIGHT)
     min_x_in.delete(0, END)
@@ -259,9 +256,17 @@ def auto_start_button_left(event, image_in_canvas):
 
 
 def change_config_file(config_file_path, line_text, new_value):
-    lines = open(config_file_path, 'r').readlines()
+    old_config = open(config_file_path, 'r')
+    lines = old_config.readlines()
+    old_config.close()
     line_num = [num for num, f in enumerate(
         lines, 0) if re.findall(line_text, f)][0]
+    # print(int(lines[line_num].split(' = ')[-1]))
+    try:
+        if int(lines[line_num].split(' = ')[-1]) == int(new_value):
+            return
+    except Exception:
+        pass
     lines[line_num] = line_text + ' = ' + str(new_value) + '\n'
     out = open(config_file_path, 'w')
     out.writelines(lines)
@@ -275,24 +280,87 @@ def select_files():
         filetypes=filetypes)
     return filename
 
-def switch_gui_config():
+def switch_gui_config(config_file_path):
+    change_var_list = ['DEFAULT_PIXELS_PER_MM', 'PIN_X1_OFFSET', 'X_CENTER', 'Y_CENTER', 'DEFAULT_HEIGHT',
+                       'DEFAULT_WIDTH','MIN_X', 'MAX_X', 'MIN_Y', 'MAX_Y', 'MIN_Z', 'MAX_Z']
     filename = select_files()
     if filename:
-        try:
-            for line in open(filename, 'r').readlines():
-                if line.split('=')[0] == 'X_CENTER':
-                    new_x_center = line.split('=$((')[-1].replace('))', '').strip()
-                elif line.split('=')[0] == 'Y_CENTER':
-                    new_y_center = line.split('=$((')[-1].replace('))', '').strip()
+        clear_image_canvas(image_in_canvas)
+        for line in open(filename, 'r').readlines():
+            new_line_var = line.split('=')[0].strip()
+            if new_line_var in change_var_list:
+                new_line_val = line.split('=$((')[-1].replace('))', '').strip()
+                if new_line_var == change_var_list[0]:
+                    new_line_val = line.split('=')[-1].replace('"', '').strip()
+                    print(f'here {new_line_var}={new_line_val}')
+                    default_pixels_per_mm_in.delete(0, END)
+                    default_pixels_per_mm_in.insert(END, new_line_val)
+                if new_line_var == change_var_list[1]:               
+                    print(f'here {new_line_var}={new_line_val}')
+                    pin_x1_offset_in.delete(0, END)
+                    pin_x1_offset_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[2]:                
+                    print(f'here {new_line_var}={new_line_val}')
+                    x_center_in.delete(0, END)
+                    x_center_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[3]:                  
+                    print(f'here {new_line_var}={new_line_val}')
+                    y_center_in.delete(0, END)
+                    y_center_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[4]:                   
+                    print(f'here {new_line_var}={new_line_val}')
+                    default_height_in.delete(0, END)
+                    default_height_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[5]:                   
+                    print(f'here {new_line_var}={new_line_val}')
+                    default_width_in.delete(0, END)
+                    default_width_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[6]:                   
+                    print(f'here {new_line_var}={new_line_val}')
+                    min_x_in.delete(0, END)
+                    min_x_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[7]:
+                    print(f'here {new_line_var}={new_line_val}')
+                    max_x_in.delete(0, END)
+                    max_x_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[8]:
+                    print(f'here {new_line_var}={new_line_val}')
+                    min_y_in.delete(0, END)
+                    min_y_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[9]:
+                    print(f'here {new_line_var}={new_line_val}')
+                    max_y_in.delete(0, END)
+                    max_y_in.insert(END, new_line_val)
+                elif new_line_var == change_var_list[10]:
+                    print(f'here {new_line_var}={new_line_val}')
+                    min_z_in.delete(0, END)
+                    min_z_in.insert(END, new_line_val)
                 else:
-                    pass
-            x_center_in.delete(0, END)
-            x_center_in.insert(END, new_x_center)
-            y_center_in.delete(0, END)
-            y_center_in.insert(END, new_y_center)
-            auto_submit_button_left("<Button-1>", image_in_canvas)
-        except Exception as e:
-            print(e)
+                    print(f'here {new_line_var}={new_line_val}')
+                    max_z_in.delete(0, END)
+                    max_z_in.insert(END, new_line_val)
+            elif new_line_var == 'export X_POS':
+                new_line_val = line.split('=')[-1].strip()
+                print(f'here {new_line_var}={new_line_val}')
+                if new_line_val.isnumeric():
+                    x_pos_box.current(0)
+                else:
+                    x_pos_box.current(1)
+            elif new_line_var == 'export Y_POS':
+                new_line_val = line.split('=')[-1].strip()
+                print(f'here {new_line_var}={new_line_val}')
+                if new_line_val.isnumeric():
+                    y_pos_box.current(0)
+                else:
+                    y_pos_box.current(1)
+            elif new_line_var == 'export Z_POS':
+                new_line_val = line.split('=')[-1].strip()
+                print(f'here {new_line_var}={new_line_val}')
+                if new_line_val.isnumeric():
+                    z_pos_box.current(0)
+                else:
+                    z_pos_box.current(1)
+        auto_submit_button_left('<Button-1>', image_in_canvas)
 
 def switch_gui_image():
     filename = select_files()
@@ -568,7 +636,7 @@ if __name__ == '__main__':
     filemenu.add_command(label="Save", command=lambda: convert_to_bash(config_file_path))
     filemenu.add_command(label="Save as...", command=save_config_as)
     filemenu.add_command(label="Change Image", command=switch_gui_image)
-    filemenu.add_command(label="Change Configuration", command=switch_gui_config)
+    filemenu.add_command(label="Change Configuration", command=lambda: switch_gui_config(config_file_path))
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=root.quit)
     
@@ -590,91 +658,6 @@ if __name__ == '__main__':
     viewmenu.add_cascade(label='Small Box', menu=sbmenu)
     sbmenu.add_command(label="Edges", command=lambda: crop_button_right_click("<Button-3>",image_in_canvas,7))
     sbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
-
-    testmenu = Menu(menubar, tearoff=1)
-    #menubar.add_cascade(label="Test", menu=testmenu)
-
-    amxmenu = Menu(testmenu, tearoff=0)
-    testmenu.add_cascade(label="AMX", menu=amxmenu)
-    amx_randomize = BooleanVar()
-    amxmenu.add_checkbutton(label='Randomize Test', variable=amx_randomize, onvalue=1, offvalue=0)
-    amxmenu.add_separator()
-    amx_test_data = Test_Config('AMX')
-    amx_test_num = amx_test_data.num_imgs
-    if amx_test_num >= 100:
-        amx_test_split = amx_test_num // 5
-        amx_label_list = []
-    
-        def test_config_button(beamline, randomize, user_choice):
-            global cancel_running_tests
-            cancel_running_tests = False
-            def disable_event():
-                pass
-
-            def close_r_top(running_top):
-                running_top.destroy()
-            
-            def cancel_r_top(proc):
-                user_confirm = messagebox.askokcancel('Confirm', 'Are you sure you want to cancel?')
-                if user_confirm:
-                    proc.kill()
-                else:
-                    pass
-            running_top = Toplevel(root)
-            x = root.winfo_x()
-            y = root.winfo_y()
-            running_top.geometry(f"{150}x{75}+{x+350}+{y+350}")
-            running_top.title('Testing')
-            running_top.protocol('WM_DELETE_WINDOW', disable_event)
-            running_top.resizable(0,0)
-            r_message = Message(running_top, text='Running Tests', justify='center', width=100)
-            r_message.pack()
-
-            pb = ttk.Progressbar(running_top, orient = HORIZONTAL, length = 150, maximum=user_choice, mode = 'determinate')
-            pb.pack()
-            
-            cancel_button = Button(running_top, text='Cancel')
-            cancel_button.pack()
-            
-            amx_index_list = amx_test_data.get_index_list(randomize, user_choice)
-            run_index = 0
-            run_test_pool = Pool(int(user_choice))
-            for i in amx_index_list:
-                run_test_pool.apply(target=amx_test_data.run_test, args=(i,))
-                pb.step()
-                running_top.update()
-                run_index += 1
-            
-            
-            cancel_button.destroy()
-            cancel_button = Button(running_top, text='Cancel', command=lambda: close_r_top(running_top))
-            cancel_button.pack()
-
-            running_top_finish = Toplevel(root)
-            running_top_finish.geometry(f"{150}x{75}+{x+350}+{y+350}")
-            f_message = Message(running_top_finish, text='Finished', justify='center', width=100)
-            f_message.pack()
-            ok_button = Button(running_top_finish, text='Ok', command=lambda: close_r_top(running_top_finish))
-            ok_button.pack()
-            
-            # running_top.destroy()
-            # messagebox.Message(master=root, title='Complete', message='Testing finished').show()
-            # running_message.start()
-
-        for i in range(10, amx_test_num, amx_test_split):
-            amx_label_list.append(f'{i}')
-        amxmenu.add_command(label=f'{amx_label_list[0]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[0]))
-        amxmenu.add_command(label=f'{amx_label_list[1]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[1]))
-        amxmenu.add_command(label=f'{amx_label_list[2]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[2]))
-        amxmenu.add_command(label=f'{amx_label_list[3]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[3]))
-        amxmenu.add_command(label=f'{amx_label_list[4]}', command=lambda: test_config_button('AMX', amx_randomize, amx_label_list[4]))
-
-    amxmenu.add_command(label=f'{amx_test_num}', command=lambda: test_config_button('AMX', amx_randomize, amx_test_num))
-    testmenu.add_separator()
-
-    fmxmenu = Menu(testmenu, tearoff=0)
-    testmenu.add_cascade(label="FMX", menu=fmxmenu)
-    fmxmenu.add_command(label='All', command=lambda: donothing('fmx all'))
 
     helpmenu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Help", menu=helpmenu)
