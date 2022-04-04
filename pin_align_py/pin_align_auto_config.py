@@ -33,26 +33,30 @@ on_off_list = [[False, False],  # Pin Tip
                [False, False]]  # Big Box
 
 filetypes = (
-        ('All files', '*.*'),
-        ('Image files', '*.jpg'),
-        ('Python files', '*.py'),
-        ('Bash files', '*.sh'),
-        ('Text files', '*.txt')
-    )
+    ('All files', '*.*'),
+    ('Image files', '*.jpg'),
+    ('Python files', '*.py'),
+    ('Bash files', '*.sh'),
+    ('Text files', '*.txt')
+)
 
 file_root = os.getcwd()
 config_file_path = os.path.join(file_root, 'pin_align_config.py')
+
 
 def motion(event):
     x, y = event.x, event.y
     current_pos = 'X: {}\t Y: {}'.format(x, y)
     mouse_pos.config(text=current_pos)
 
+
 def get_pin_crops():
     inputs = importlib.reload(pin_align_config)
     pin_crops = [[slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_TIP],
-                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_BODY],
-                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2), inputs.PIN_BASE],
+                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2),
+                  inputs.PIN_BODY],
+                 [slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2),
+                  inputs.PIN_BASE],
                  [inputs.TILT_CHECK_TOP, inputs.TILT_CHECK_ROI_WIDTH],
                  [inputs.TILT_CHECK_BOTTOM, inputs.TILT_CHECK_ROI_WIDTH],
                  [inputs.PIN_CHECK_TOP, inputs.PIN_BODY],
@@ -60,9 +64,11 @@ def get_pin_crops():
                  [inputs.SMALL_BOX_HEIGHT, inputs.SMALL_BOX_WIDTH],
                  [inputs.BIG_BOX_HEIGHT, inputs.BIG_BOX_WIDTH],
                  [inputs.X_CENTER, inputs.Y_CENTER],
-                 [slice(inputs.PIN_TIP_X1, inputs.PIN_BASE_X2), slice(inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2)],
+                 [slice(inputs.PIN_TIP_X1, inputs.PIN_BASE_X2), slice(
+                     inputs.DEFAULT_ROI_Y1, inputs.DEFAULT_ROI_Y2)],
                  [inputs.PIN_X1_OFFSET, None]]
     return pin_crops
+
 
 def update_entry_boxes(x_center=None, y_center=None):
     update_config = importlib.reload(pin_align_config)
@@ -95,11 +101,14 @@ def update_entry_boxes(x_center=None, y_center=None):
     max_z_in.delete(0, END)
     max_z_in.insert(END, update_config.MAX_Z)
 
+
 def save_config(new_filepath):
-    new_filepath = os.path.join(os.path.abspath(os.pardir), new_filepath + '.sh')
+    new_filepath = os.path.join(
+        os.path.abspath(os.pardir), new_filepath + '.sh')
     convert_to_bash(new_filepath)
     print(new_filepath)
     return
+
 
 def save_config_as():
     global filetypes
@@ -108,6 +117,7 @@ def save_config_as():
     if filename:
         convert_to_bash(filename)
     return
+
 
 def crop_button_left_click(event, image_in_canvas, button_choice):
     global on_off_list
@@ -138,6 +148,7 @@ def crop_button_left_click(event, image_in_canvas, button_choice):
     y2_value_in.insert(END, str(Y2))
     return pin_crops
 
+
 def crop_button_right_click(event, image_in_canvas, button_choice):
     global on_off_list
     pin_crops = get_pin_crops()
@@ -164,9 +175,11 @@ def crop_button_right_click(event, image_in_canvas, button_choice):
         image_in_canvas.delete_crop_edge(on_off_list[button_choice][1])
         on_off_list[button_choice][1] = False
 
+
 def clear_image_canvas(image_in_canvas):
     global on_off_list
     on_off_list = image_in_canvas.clear_canvas(on_off_list)
+
 
 def auto_start_button_left(event, image_in_canvas):
     global help_image_window
@@ -212,14 +225,14 @@ def auto_start_button_left(event, image_in_canvas):
                                         x1_value_in, y1_value_in, x2_value_in, y2_value_in)
     else:
         image_in_canvas.auto_crop_stop(
-        y1_value_label, x1_value_label, x2_value_label, y2_value_label)
+            y1_value_label, x1_value_label, x2_value_label, y2_value_label)
         clear_image_canvas(image_in_canvas)
         info_canvas_top.delete(help_image_window)
         auto_start_on_off = False
         pin_tip_button.bind("<Button-1>", lambda event,
-                    arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
+                            arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
         pin_body_button.bind("<Button-1>", lambda event,
-                            arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
+                             arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
         pin_cap_button.bind("<Button-1>", lambda event,
                             arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 2))
         tilt_check_top_button.bind(
@@ -227,14 +240,14 @@ def auto_start_button_left(event, image_in_canvas):
         tilt_check_bottom_button.bind(
             "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 4))
         pin_check_top_button.bind("<Button-1>", lambda event,
-                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
+                                  arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
         pin_check_bottom_button.bind(
             "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 6))
 
         pin_tip_button.bind("<Button-3>", lambda event,
                             arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 0))
         pin_body_button.bind("<Button-3>", lambda event,
-                            arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
+                             arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
         pin_cap_button.bind("<Button-3>", lambda event,
                             arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 2))
         tilt_check_top_button.bind(
@@ -242,7 +255,7 @@ def auto_start_button_left(event, image_in_canvas):
         tilt_check_bottom_button.bind(
             "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 4))
         pin_check_top_button.bind("<Button-3>", lambda event,
-                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
+                                  arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
         pin_check_bottom_button.bind(
             "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 6))
 
@@ -272,6 +285,7 @@ def change_config_file(config_file_path, line_text, new_value):
     out.writelines(lines)
     out.close()
 
+
 def select_files():
     global filetypes
     filename = fd.askopenfilename(
@@ -280,9 +294,49 @@ def select_files():
         filetypes=filetypes)
     return filename
 
+def about_button():
+    about_message = """
+    Scripts for detecting pin alignment issues from top view camera\n
+    Designed by Edwin Lazo, Jean Jakoncic, Herbert J. Bernstein
+    Copyright 29 Jan 2019, Herbert J. Bernstein as a copyleft for the GPL and LGPL\n
+    Revised 14 Feb 2019, Herbert J. Bernstein, Edwin Lazo
+    \t-improve base tilt detection & use pgm instead of jpg
+    Revised 12 Mar 2019, Edwin Lazo, Herbert J. Bernstein
+    \t-Extended configuration after camera realignment
+    Revised 4 Apr 2022, Samuel Clark, Edwin Lazo, Herbert J. Bernstein
+    \t-Extended pin align functionality with graphical user interface (GUI)
+    \tfor easy configuration and beamline integration\n
+    YOU MAY REDISTRIBUTE THE PIN_ALIGN PACKAGE UNDER THE TERMS OF THE GPL
+    ALTERNATIVELY YOU MAY REDISTRIBUTE THE PIN_ALIGN API UNDER THE TERMS OF THE LGPL"""
+    about_window = tk.Toplevel()
+    x = root.winfo_screenwidth()
+    y = root.winfo_screenheight()
+
+    w = 665
+    h = 250
+
+    ws = root.winfo_screenwidth()  # width of the screen
+    hs = root.winfo_screenheight()  # height of the screen
+
+    x = (ws/2) - (w/2)
+    y = (hs/2) - (h/2)
+
+    about_window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    about_window.title('About')
+    # root.protocol('WM_DELETE_WINDOW', disable_event)
+    about_window.resizable(0, 0)
+    about_canvas = Canvas(about_window, width=w, height=h, border=1, bg='white')
+    about_canvas.pack()
+    about_label = Label(about_canvas, text=about_message, justify='left', bg='white')
+    about_label.config(font=('helvetica', 10))
+    about_label.pack()
+    about_ok = Button(about_canvas, text='OK', command=about_window.destroy)
+    about_ok.pack()
+    about_window.mainloop()
+
 def switch_gui_config(config_file_path):
     change_var_list = ['DEFAULT_PIXELS_PER_MM', 'PIN_X1_OFFSET', 'X_CENTER', 'Y_CENTER', 'DEFAULT_HEIGHT',
-                       'DEFAULT_WIDTH','MIN_X', 'MAX_X', 'MIN_Y', 'MAX_Y', 'MIN_Z', 'MAX_Z']
+                       'DEFAULT_WIDTH', 'MIN_X', 'MAX_X', 'MIN_Y', 'MAX_Y', 'MIN_Z', 'MAX_Z']
     filename = select_files()
     if filename:
         clear_image_canvas(image_in_canvas)
@@ -292,81 +346,83 @@ def switch_gui_config(config_file_path):
                 new_line_val = line.split('=$((')[-1].replace('))', '').strip()
                 if new_line_var == change_var_list[0]:
                     new_line_val = line.split('=')[-1].replace('"', '').strip()
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     default_pixels_per_mm_in.delete(0, END)
                     default_pixels_per_mm_in.insert(END, new_line_val)
-                if new_line_var == change_var_list[1]:               
-                    print(f'here {new_line_var}={new_line_val}')
+                if new_line_var == change_var_list[1]:
+                    
                     pin_x1_offset_in.delete(0, END)
                     pin_x1_offset_in.insert(END, new_line_val)
-                elif new_line_var == change_var_list[2]:                
-                    print(f'here {new_line_var}={new_line_val}')
+                elif new_line_var == change_var_list[2]:
+                    
                     x_center_in.delete(0, END)
                     x_center_in.insert(END, new_line_val)
-                elif new_line_var == change_var_list[3]:                  
-                    print(f'here {new_line_var}={new_line_val}')
+                elif new_line_var == change_var_list[3]:
+                    
                     y_center_in.delete(0, END)
                     y_center_in.insert(END, new_line_val)
-                elif new_line_var == change_var_list[4]:                   
-                    print(f'here {new_line_var}={new_line_val}')
+                elif new_line_var == change_var_list[4]:
+                    
                     default_height_in.delete(0, END)
                     default_height_in.insert(END, new_line_val)
-                elif new_line_var == change_var_list[5]:                   
-                    print(f'here {new_line_var}={new_line_val}')
+                elif new_line_var == change_var_list[5]:
+                    
                     default_width_in.delete(0, END)
                     default_width_in.insert(END, new_line_val)
-                elif new_line_var == change_var_list[6]:                   
-                    print(f'here {new_line_var}={new_line_val}')
+                elif new_line_var == change_var_list[6]:
+                    
                     min_x_in.delete(0, END)
                     min_x_in.insert(END, new_line_val)
                 elif new_line_var == change_var_list[7]:
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     max_x_in.delete(0, END)
                     max_x_in.insert(END, new_line_val)
                 elif new_line_var == change_var_list[8]:
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     min_y_in.delete(0, END)
                     min_y_in.insert(END, new_line_val)
                 elif new_line_var == change_var_list[9]:
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     max_y_in.delete(0, END)
                     max_y_in.insert(END, new_line_val)
                 elif new_line_var == change_var_list[10]:
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     min_z_in.delete(0, END)
                     min_z_in.insert(END, new_line_val)
                 else:
-                    print(f'here {new_line_var}={new_line_val}')
+                    
                     max_z_in.delete(0, END)
                     max_z_in.insert(END, new_line_val)
             elif new_line_var == 'export X_POS':
                 new_line_val = line.split('=')[-1].strip()
-                print(f'here {new_line_var}={new_line_val}')
+                
                 if new_line_val.isnumeric():
                     x_pos_box.current(0)
                 else:
                     x_pos_box.current(1)
             elif new_line_var == 'export Y_POS':
                 new_line_val = line.split('=')[-1].strip()
-                print(f'here {new_line_var}={new_line_val}')
+                
                 if new_line_val.isnumeric():
                     y_pos_box.current(0)
                 else:
                     y_pos_box.current(1)
             elif new_line_var == 'export Z_POS':
                 new_line_val = line.split('=')[-1].strip()
-                print(f'here {new_line_var}={new_line_val}')
+                
                 if new_line_val.isnumeric():
                     z_pos_box.current(0)
                 else:
                     z_pos_box.current(1)
         auto_submit_button_left('<Button-1>', image_in_canvas)
 
+
 def switch_gui_image():
     filename = select_files()
     if filename:
         os.execv(sys.argv[0], [sys.argv[0], filename])
     pass
+
 
 def auto_submit_button_left(event, image_in_canvas):
     global help_image_window
@@ -375,7 +431,7 @@ def auto_submit_button_left(event, image_in_canvas):
     submit_config_update = importlib.reload(pin_align_config)
     rtl = False
     ltr = False
-    # A "minor" change has no impact that a visual aid would help in making that change. 
+    # A "minor" change has no impact that a visual aid would help in making that change.
     minor_entry_change = False
 
     config_x_cent = submit_config_update.X_CENTER
@@ -383,10 +439,10 @@ def auto_submit_button_left(event, image_in_canvas):
     config_default_width = submit_config_update.DEFAULT_WIDTH
     config_default_height = submit_config_update.DEFAULT_HEIGHT
     config_x1_offset = submit_config_update.PIN_X1_OFFSET
-    
+
     image_in_canvas.auto_crop_stop(
         y1_value_label, x1_value_label, x2_value_label, y2_value_label)
-    
+
     ### LOOKING FOR CHANGES TO MIN VALUES ###
     if int(min_x_in.get()) != submit_config_update.MIN_X:
         change_config_file(config_file_path, 'MIN_X', str(min_x_in.get()))
@@ -410,25 +466,28 @@ def auto_submit_button_left(event, image_in_canvas):
     ### LOOKING FOR CHANGES TO DEFAULT PIXELS PER MM ###
     if int(default_pixels_per_mm_in.get()) != submit_config_update.DEFAULT_PIXELS_PER_MM:
         change_config_file(
-        config_file_path, 'DEFAULT_PIXELS_PER_MM', str(default_pixels_per_mm_in.get()))
+            config_file_path, 'DEFAULT_PIXELS_PER_MM', str(default_pixels_per_mm_in.get()))
         minor_entry_change = True
     ### LOOKING FOR CHANGES TO X, Y, Z POSITIVE DIRECTION ###
     if str(x_pos_in.get()) != str(submit_config_update.X_POS):
         change_config_file(config_file_path, 'X_POS',
                            str(x_pos_in.get()))
         minor_entry_change = True
-        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
+        image_in_canvas.show_xyz_dir(
+            x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
     if str(y_pos_in.get()) != str(submit_config_update.Y_POS):
         change_config_file(config_file_path, 'Y_POS',
                            str(y_pos_in.get()))
         minor_entry_change = True
-        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
+        image_in_canvas.show_xyz_dir(
+            x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
     if (z_pos_in.get()) != str(submit_config_update.Z_POS):
         change_config_file(config_file_path, 'Z_POS',
                            str(z_pos_in.get()))
         minor_entry_change = True
-        image_in_canvas.show_xyz_dir(x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
-    
+        image_in_canvas.show_xyz_dir(
+            x_pos_in.get(), y_pos_in.get(), z_pos_in.get(), True)
+
     if minor_entry_change:
         convert_to_bash(config_file_path)
     if X_POS:
@@ -443,9 +502,9 @@ def auto_submit_button_left(event, image_in_canvas):
             info_canvas_top.delete(help_image_window)
             auto_start_on_off = False
             pin_tip_button.bind("<Button-1>", lambda event,
-                        arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
+                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 0))
             pin_body_button.bind("<Button-1>", lambda event,
-                                arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
+                                 arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 1))
             pin_cap_button.bind("<Button-1>", lambda event,
                                 arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 2))
             tilt_check_top_button.bind(
@@ -453,14 +512,14 @@ def auto_submit_button_left(event, image_in_canvas):
             tilt_check_bottom_button.bind(
                 "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 4))
             pin_check_top_button.bind("<Button-1>", lambda event,
-                                    arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
+                                      arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 5))
             pin_check_bottom_button.bind(
                 "<Button-1>", lambda event, arg=image_in_canvas: crop_button_left_click(event, image_in_canvas, 6))
 
             pin_tip_button.bind("<Button-3>", lambda event,
                                 arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 0))
             pin_body_button.bind("<Button-3>", lambda event,
-                                arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
+                                 arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 1))
             pin_cap_button.bind("<Button-3>", lambda event,
                                 arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 2))
             tilt_check_top_button.bind(
@@ -468,7 +527,7 @@ def auto_submit_button_left(event, image_in_canvas):
             tilt_check_bottom_button.bind(
                 "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 4))
             pin_check_top_button.bind("<Button-3>", lambda event,
-                                    arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
+                                      arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 5))
             pin_check_bottom_button.bind(
                 "<Button-3>", lambda event, arg=image_in_canvas: crop_button_right_click(event, image_in_canvas, 6))
 
@@ -483,7 +542,8 @@ def auto_submit_button_left(event, image_in_canvas):
             X, Y = image_in_canvas.center_pin_image(
                 int(x1_value_in.get()), int(y1_value_in.get()))
             if not X or not Y:
-                messagebox.showerror('NO PIN', 'CANNOT FIND PIN TIP NEAR GREEN POINT, PLEASE TRY AGAIN!')
+                messagebox.showerror(
+                    'NO PIN', 'CANNOT FIND PIN TIP NEAR GREEN POINT, PLEASE TRY AGAIN!')
                 auto_start_button_left(event, image_in_canvas)
                 return
             change_config_file(
@@ -494,7 +554,8 @@ def auto_submit_button_left(event, image_in_canvas):
             B = Y
 
             # X1 = X - int(pin_x1_offset_in.get())
-            X1 = (X - int(pin_x1_offset_in.get())) + (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
+            X1 = (X - int(pin_x1_offset_in.get())) + \
+                (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
             X2 = A + 5
             height = int(default_height_in.get())
             width = X2 - X1
@@ -503,15 +564,16 @@ def auto_submit_button_left(event, image_in_canvas):
             change_config_file(config_file_path, 'DEFAULT_WIDTH', str(width))
         elif (submit_config_update.X_CENTER != int(x_center_in.get()) or
               submit_config_update.Y_CENTER != int(y_center_in.get()) or
-              submit_config_update.DEFAULT_WIDTH != int(default_width_in.get()) or 
+              submit_config_update.DEFAULT_WIDTH != int(default_width_in.get()) or
               submit_config_update.DEFAULT_HEIGHT != int(default_height_in.get()) or
               submit_config_update.PIN_X1_OFFSET != int(pin_x1_offset_in.get())):
             clear_image_canvas(image_in_canvas)
             X, Y = int(x_center_in.get()), int(y_center_in.get())
             height = int(default_height_in.get())
-            
+
             # X1 = X - int(pin_x1_offset_in.get())
-            X1 = (X - int(pin_x1_offset_in.get())) + (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
+            X1 = (X - int(pin_x1_offset_in.get())) + \
+                (int(min_x_in.get()) * int(default_pixels_per_mm_in.get()))
             X2 = X1 + int(default_width_in.get())
             width = X2 - X1
             line = image_in_canvas.draw_new_line(X1, Y, X2, Y)
@@ -526,7 +588,8 @@ def auto_submit_button_left(event, image_in_canvas):
         else:
             messagebox.showwarning('NO CHANGES', 'NO CHANGES WERE DETECTED')
             return
-        change_config_file(config_file_path, 'PIN_X1_OFFSET', pin_x1_offset_in.get())
+        change_config_file(config_file_path, 'PIN_X1_OFFSET',
+                           pin_x1_offset_in.get())
         Y1 = Y - (height // 2)
         Y2 = Y + (height // 2)
 
@@ -585,7 +648,7 @@ def auto_submit_button_left(event, image_in_canvas):
         Yb_pc = Y2 - Y_offset
         change_config_file(config_file_path, 'PIN_CHECK_BOTTOM_Y1', Yb_pc)
         change_config_file(config_file_path, 'PIN_CHECK_BOTTOM_Y2', Y2)
-        
+
         new_crop = image_in_canvas.get_image(X1, X2, Y1, Y2)
         current_crop_label.config(image=new_crop)
         current_crop_title.config(
@@ -597,14 +660,16 @@ def auto_submit_button_left(event, image_in_canvas):
     else:
         print('pass')
 
+
 def donothing(button):
     print(f'##### {button} Working #####')
     pass
 
+
 if __name__ == '__main__':
     root = tk.Tk()
     auto_start_on_off = False
-    
+
     root.bind('<Motion>', motion)
     # Tool Bar is added to the canvas here to avoid formatting issues
     # Tool Bar code continues on line 413
@@ -633,42 +698,51 @@ if __name__ == '__main__':
     filemenu = Menu(menubar, tearoff=1)
     menubar.add_cascade(label="File", menu=filemenu)
 
-    filemenu.add_command(label="Save", command=lambda: convert_to_bash(config_file_path))
+    filemenu.add_command(
+        label="Save", command=lambda: convert_to_bash(config_file_path))
     filemenu.add_command(label="Save as...", command=save_config_as)
     filemenu.add_command(label="Change Image", command=switch_gui_image)
-    filemenu.add_command(label="Change Configuration", command=lambda: switch_gui_config(config_file_path))
+    filemenu.add_command(label="Change Configuration",
+                         command=lambda: switch_gui_config(config_file_path))
     filemenu.add_separator()
     filemenu.add_command(label="Exit", command=root.quit)
-    
+
     viewmenu = Menu(menubar, tearoff=1)
     menubar.add_cascade(label="View", menu=viewmenu)
 
     viewmenu.add_command(label="Refresh", command=update_entry_boxes)
-    viewmenu.add_command(label="Manual", command=image_in_canvas.start_self_crop)
-    viewmenu.add_command(label="Clear", command=lambda: clear_image_canvas(image_in_canvas))
+    viewmenu.add_command(
+        label="Manual", command=image_in_canvas.start_self_crop)
+    viewmenu.add_command(
+        label="Clear", command=lambda: clear_image_canvas(image_in_canvas))
     viewmenu.add_command(label="Zoom", command=lambda: donothing('zoom'))
     viewmenu.add_separator()
 
     bbmenu = Menu(viewmenu, tearoff=0)
     viewmenu.add_cascade(label='Big Box', menu=bbmenu)
-    bbmenu.add_command(label="Edges", command=lambda:crop_button_right_click("<Button-3>",image_in_canvas,8))
-    bbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,8))
+    bbmenu.add_command(label="Edges", command=lambda: crop_button_right_click(
+        "<Button-3>", image_in_canvas, 8))
+    bbmenu.add_command(label="Outline", command=lambda: crop_button_left_click(
+        "<Button-1>", image_in_canvas, 8))
 
     sbmenu = Menu(viewmenu, tearoff=0)
     viewmenu.add_cascade(label='Small Box', menu=sbmenu)
-    sbmenu.add_command(label="Edges", command=lambda: crop_button_right_click("<Button-3>",image_in_canvas,7))
-    sbmenu.add_command(label="Outline", command=lambda: crop_button_left_click("<Button-1>",image_in_canvas,7))
+    sbmenu.add_command(label="Edges", command=lambda: crop_button_right_click(
+        "<Button-3>", image_in_canvas, 7))
+    sbmenu.add_command(label="Outline", command=lambda: crop_button_left_click(
+        "<Button-1>", image_in_canvas, 7))
 
     helpmenu = Menu(menubar, tearoff=0)
     menubar.add_cascade(label="Help", menu=helpmenu)
-    
-    helpmenu.add_command(label="X,Y,Z Direction", command=lambda: 
+
+    helpmenu.add_command(label="X,Y,Z Direction", command=lambda:
                          image_in_canvas.show_xyz_dir(x_pos_in.get(),
                                                       y_pos_in.get(),
-                                                      z_pos_in.get(), 
+                                                      z_pos_in.get(),
                                                       False))
-    helpmenu.add_command(label="Help Index", command=lambda: donothing('help index'))
-    helpmenu.add_command(label="About...", command=lambda: donothing('about'))
+    # helpmenu.add_command(label="Help Index",
+    #                      command=lambda: donothing('help index'))
+    helpmenu.add_command(label="About...", command=about_button)
 
     root.config(menu=menubar)
 
@@ -934,7 +1008,7 @@ if __name__ == '__main__':
     y2_value_in.insert(END, '0')
 
     info_canvas_bottom.create_window(450, 420, window=y2_value_in)
-    
+
     ############################ Misc Settings ############################
 
     mouse_pos = Label(root, text='0')
