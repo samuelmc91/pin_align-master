@@ -253,9 +253,7 @@ if __name__ == "__main__":
     root.title('Testing')
     # root.protocol('WM_DELETE_WINDOW', disable_event)
     root.resizable(0, 0)
-    style = ttk.Style()
-    style.map('TCombobox', fieldbackground=[('readonly', 'white')])
-
+    
     canvas = Canvas(root, width=300, height=175, border=1)
     canvas.pack()
 
