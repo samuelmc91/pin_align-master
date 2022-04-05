@@ -175,7 +175,8 @@ class Test_Config:
         self.results_file.write(
             'Position Error: {}\n'.format(self.pos_e_count))
         self.results_file.close()
-        shutil.rmtree(self.result_dir)
+        result_mv_path = os.path.join(self.tmp_dir, 'Results')
+        shutil.move(self.result_dir, result_mv_path)
         os.chdir(self.beam_dir)
 
 
@@ -206,7 +207,7 @@ if __name__ == "__main__":
             messagebox.showerror('Error', 'Directory DOES NOT Exist!')
             return
         else:
-            beamline_data = Test_Config(beam_dir_in.get(), beam_dir_base)
+            beamline_data = Test_Config(beam_dir_in.get().upper(), beam_dir_base)
             test_number_in.set(beamline_data.num_imgs // 2)
             test_number_box.focus()
             test_number_box.icursor(END)
@@ -222,7 +223,7 @@ if __name__ == "__main__":
         pb = ttk.Progressbar(root, orient=HORIZONTAL, length=265,
                              maximum=test_number_in.get(), mode='determinate')
         canvas.create_window(150, 115, window=pb)
-        beamline_data = Test_Config(beam_dir_in.get(), beam_dir_base)
+        beamline_data = Test_Config(beam_dir_in.get().upper(), beam_dir_base)
         test_index_list = beamline_data.get_index_list(
             random_choice_in.get(), test_number_in.get())
         for i in test_index_list:
