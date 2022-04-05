@@ -7,9 +7,9 @@
 full_path="$(cd "${0%/*}" 2>/dev/null; echo "$PWD"/"${0##*/}")"
 export PIN_ALIGN_ROOT=`dirname "$full_path" | sed 's/\/bin$//'`
 #echo full_path=\"$full_path\"
-if [ -d /home/samuel/Desktop/Projects/pin_align-master/AMX ]; then
-   export PIN_ALIGN_ROOT=/home/samuel/Desktop/Projects/pin_align-master/AMX
-fi
+# if [ -d /home/samuel/Desktop/Projects/pin_align-master/AMX ]; then
+#    export PIN_ALIGN_ROOT=/home/samuel/Desktop/Projects/pin_align-master/AMX
+# fi
 . $PIN_ALIGN_ROOT/pin_align_config_amx.sh
 if [ "xx${PIN_ALIGN_DEBUG}" != "xx" ]; then
     echo PIN_ALIGN_ROOT=\"$PIN_ALIGN_ROOT\"
