@@ -148,6 +148,8 @@ class Test_Config:
                 except Exception as e:
                     print(new_run_results)
                     print(e)
+                shutil.copy(run_img_0, pos_diff_tmp_dir)
+                shutil.copy(run_img_90, pos_diff_tmp_dir)
                 pos_diff_fname = img_name + '_diff_results.txt'
                 pos_diff_fpath = os.path.join(pos_diff_tmp_dir, pos_diff_fname)
                 pos_diff_f = open(pos_diff_fpath, 'w')
