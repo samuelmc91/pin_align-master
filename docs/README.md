@@ -1,2 +1,2 @@
-# Puck Visualization
+# Pin Align
 
